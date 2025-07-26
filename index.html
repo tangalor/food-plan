@@ -125,7 +125,7 @@
     #info-toast {
       display: none;
       position: fixed;
-      top: 24px;
+      top: 30%;
       right: 0;
       left: 0;
       margin-left: auto;
@@ -160,6 +160,56 @@
         font-size: 0.95em;
       }
     }
+
+    }
+    .toast-icon {
+      min-width: 28px;
+      width: 28px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .toast-icon svg {
+      width: 24px;
+      height: 24px;
+      display: block;
+    }
+
+    @media (max-width: 600px) {
+      #info-toast {
+        min-width: 120px;
+        max-width: 98vw;
+        left: 2vw;
+        right: 2vw;
+        padding: 0.7em 1em 0.7em 0.6em; /* più spazio a sinistra */
+        font-size: 0.95em;
+      }
+      .toast-icon {
+        min-width: 22px;
+        width: 22px;
+      }
+      .toast-icon svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+    @media (max-width: 400px) {
+      #info-toast {
+        font-size: 0.86em;
+        padding-left: 0.4em;
+      }
+      .toast-icon {
+        min-width: 18px;
+        width: 18px;
+      }
+      .toast-icon svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+
 
     /* Evidenziato in giallo */
     .highlight {
