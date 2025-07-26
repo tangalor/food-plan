@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Piano Alimentare Settimanale Giornaliero</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+  <link rel="manifest" href="site_goodfood.webmanifest">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <style>
+    :root {
+      --primary: #156fa2;
+      --primary-light: #1976d2;
+      --accent: #0077b6;
+      --bg: #f8f9fa;
+      --section-bg: #fff;
+      --section-shadow: 0 2px 8px #eee;
+      --radius: 10px;
+      --nav-bg: #e3e6ea;
+      --nav-hover: #b8d2f3;
+      --note-bg: #e6f3ff;
+      --note-border: #156fa2;
+      --text: #222;
+      --highlight: #fffeb3;
+      --toast-bg: #fffbea;
+      --toast-border: #ffe066;
+      --toast-shadow: 0 6px 24px #e9c74a66;
+      --toast-info: #f6c700;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 18px;
+      line-height: 1.55;
+    }
+    body {
+      padding-top: 0;
+      padding-bottom: 2em;
+      padding-left: 1em;
+      padding-right: 1em;
+    }
+    .nav {
+      margin: 2em 0 2em 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7em;
+      justify-content: flex-start;
+      font-size: 1em;
+    }
+    .nav a {
+      background: var(--nav-bg);
+      color: var(--accent);
+      padding: 0.5em 1em;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.2s;
+      font-weight: 500;
+      font-size: 1em;
+    }
+    .nav a:hover, .nav a:focus {
+      background: var(--nav-hover);
+      color: var(--primary-light);
+      outline: none;
+    }
+    section {
+      margin-bottom: 2em;
+      background: var(--section-bg);
+      padding: 1em 2.5em 1.5em 2.5em;
+      border-radius: var(--radius);
+      box-shadow: var(--section-shadow);
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    h1 {
+      margin-top: 0.1em;
+      margin-bottom: 0.7em;
+      font-size: 2em;
+      color: var(--primary);
+      text-align: left;
+      letter-spacing: 0.01em;
+    }
+    h2 {
+      color: var(--primary-light);
+      margin-bottom: 0.2em;
+      margin-top: 1.4em;
+      font-size: 1.18em;
+      font-weight: 600;
+      transition: background 0.25s;
+    }
+    p {
+      margin-top: 0.2em;
+      margin-bottom: 0.9em;
+      transition: background 0.25s;
+    }
+    ul.menu-elenco {
+      margin-top: 0.2em;
+      margin-bottom: 0.9em;
+      margin-left: 1.2em;
+      padding-left: 1em;
+    }
+    .note {
+      margin: 2.5em auto 1em auto;
+      background: var(--note-bg);
+      padding: 1em 1.2em;
+      border-radius: 8px;
+      border-left: 4px solid var(--note-border);
+      max-width: 700px;
+      font-size: 1em;
+    }
+    .note ul {
+      margin: 0.5em 0 0 1.2em;
+      padding: 0;
+    }
+
+    /* Toast message box */
+    #info-toast {
+      display: none;
+      position: fixed;
+      top: 24px;
+      right: 0;
+      left: 0;
+      margin-left: auto;
+      margin-right: auto;
+      min-width: 220px;
+      max-width: 380px;
+      z-index: 2000;
+      background: var(--toast-bg);
+      color: #5a5a26;
+      border: 1.5px solid var(--toast-border);
+      box-shadow: var(--toast-shadow);
+      border-radius: 10px;
+      padding: 1.1em 1.6em 1.1em 1.1em;
+      font-size: 1.07em;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7em;
+      animation: fadein 0.6s;
+      /* aggiunta: spazio orizzontale rispetto ai lati */
+      margin-top: 24px;
+      margin-bottom: 0;
+      /* spazio laterale su schermi piccoli */
+      box-sizing: border-box;
+    }
+    @media (max-width: 600px) {
+      #info-toast {
+        min-width: 120px;
+        max-width: 98vw;
+        left: 2vw;
+        right: 2vw;
+        padding: 0.7em 1em 0.7em 0.7em;
+        font-size: 0.95em;
+      }
+    }
+
+    /* Evidenziato in giallo */
+    .highlight {
+      background: var(--highlight) !important;
+      border-radius: 7px;
+      box-shadow: 0 2px 8px #ffe46033;
+      transition: background 0.25s;
+    }
+    #toTopBtn {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 56px;
+      height: 56px;
+      border: none;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(21,111,162,0.18);
+      cursor: pointer;
+      z-index: 1000;
+      transition: background 0.18s, box-shadow 0.18s, opacity 0.18s;
+      opacity: 0.88;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+    }
+    #toTopBtn:hover, #toTopBtn:focus {
+      background: var(--primary-light);
+      box-shadow: 0 8px 24px rgba(21,111,162,0.22);
+      opacity: 1;
+      outline: none;
+    }
+    #toTopBtn svg {
+      display: block;
+      width: 28px;
+      height: 28px;
+    }
+    @media (max-width: 900px) {
+      section, .note {
+        max-width: 98vw;
+        padding-left: 3vw;
+        padding-right: 3vw;
+      }
+      .nav {
+        gap: 0.45em;
+        font-size: 0.98em;
+      }
+      body {
+        padding-left: 2vw;
+        padding-right: 2vw;
+      }
+    }
+    @media (max-width: 600px) {
+      html, body {
+        font-size: 16px;
+      }
+      .nav {
+        gap: 0.4em;
+        font-size: 0.96em;
+        margin-top: 1.1em;
+        margin-bottom: 1.1em;
+      }
+      h1 {
+        font-size: 1.28em;
+        margin-top: 0.07em;
+        margin-bottom: 0.6em;
+      }
+      h2 {
+        font-size: 1.07em;
+        margin-top: 1em;
+        margin-bottom: 0.11em;
+      }
+      section, .note {
+        padding: 1em 0.8em;
+        border-radius: 7px;
+        max-width: 100vw;
+      }
+      #toTopBtn {
+        width: 42px;
+        height: 42px;
+        right: 10px;
+        bottom: 10px;
+        font-size: 1.3em;
+      }
+      #toTopBtn svg {
+        width: 18px;
+        height: 18px;
+      }
+      body {
+        padding-left: 1vw;
+        padding-right: 1vw;
+      }
+    }
+    .nav a:focus-visible, #toTopBtn:focus-visible {
+      outline: 2px solid #1976d2;
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <a id="top"></a>
+  <nav class="nav" aria-label="Vai al giorno">
+    <a href="#lunedi">Lunedì</a>
+    <a href="#martedi">Martedì</a>
+    <a href="#mercoledi">Mercoledì</a>
+    <a href="#giovedi">Giovedì</a>
+    <a href="#venerdi">Venerdì</a>
+    <a href="#sabato">Sabato</a>
+    <a href="#domenica">Domenica</a>
+    <a href="#note">Note</a>
+  </nav>
+
+  <section id="lunedi">
+    <h1>Lunedì</h1>
+    <h2 id="lunedi-colazione">Colazione</h2>
+    <p id="lunedi-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra:</strong></p>
+    <ul class="menu-elenco">
+      <li>2 pancakes proteici Milkpro</li>
+      <li>3 Formelle Weetabix</li>
+      <li>2-3 manciate di cereali a scelta</li>
+      <li>5 biscotti a scelta</li>
+      <li>5 fette biscottate integrali</li>
+    </ul>
+    <h2 id="lunedi-spuntinomattina">Spuntino Mattina</h2>
+    <p id="lunedi-spuntinomattina-par">1 frutto grande (es. pesca/banana) o 2 piccoli (es. kiwi/albicocche)</p>
+    <h2 id="lunedi-pranzo">Pranzo</h2>
+    <p id="lunedi-pranzo-par">150g di pasta <strong>oppure</strong></p>
+    <ul class="menu-elenco">
+      <li>riso/farro/orzo/cous cous (meglio se integrali)</li>
+    </ul>
+    <p>+ verdure a scelta + massimo 2 cucchiai in totale tra olio, parmigiano e/o sugo</p>
+    <h2 id="lunedi-spuntinopomeriggio">Spuntino Pomeriggio</h2>
+    <p id="lunedi-spuntinopomeriggio-par">1 toast (2 fette pane in cassetta integrale) con 2-3 fette di affettato magro (tacchino, pollo, bresaola)</p>
+    <h2 id="lunedi-cena">Cena</h2>
+    <p id="lunedi-cena-par">Carne bianca (petto di pollo/tacchino) circa 2 fettine + 100g di pane integrale (circa 2 panini piccoli o 4 fette di pane in cassetta) <strong>oppure</strong></p>
+    <ul class="menu-elenco">
+      <li>2 pacchetti di crackers</li>
+      <li>7 gallette</li>
+      <li>90g di focaccia (circa 3 focaccine esselunga)</li>
+      <li>3 patate medie</li>
+    </ul>
+    <p>Aggiungi una porzione di verdure totalmente a scelta sia come varietà sia come quantità</p>
+  </section>
+
+  <!-- MARTEDI -->
+  <section id="martedi">
+    <h1>Martedì</h1>
+    <h2 id="martedi-colazione">Colazione</h2>
+    <p id="martedi-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra:</strong></p>
+    <ul class="menu-elenco">
+      <li>2 pancakes proteici Milkpro</li>
+      <li>3 Formelle Weetabix</li>
+      <li>2-3 manciate di cereali a scelta</li>
+      <li>5 biscotti a scelta</li>
+      <li>5 fette biscottate integrali</li>
+    </ul>
+    <h2 id="martedi-spuntinomattina">Spuntino Mattina</h2>
+    <p id="martedi-spuntinomattina-par">1 bustina monoporzione da 20-30g frutta secca <strong>oppure</strong></p>
+    <ul class="menu-elenco">
+      <li>1 yogurt greco 0%</li>
+      <li>1 barretta Special K</li>
+      <li>1 galletta + semi/granella a scelta</li>
+    </ul>
+    <h2 id="martedi-pranzo">Pranzo</h2>
+    <p id="martedi-pranzo-par">150g di pasta <strong>oppure</strong></p>
+    <ul class="menu-elenco">
+      <li>riso/farro/orzo/cous cous (meglio se integrali)</li>
+    </ul>
+    <p>+ verdure a scelta + massimo 2 cucchiai in totale tra olio, parmigiano e/o sugo</p>
+    <h2 id="martedi-spuntinopomeriggio">Spuntino Pomeriggio</h2>
+    <p id="martedi-spuntinopomeriggio-par">1 toast (2 fette pane in cassetta integrale) con 2-3 fette di affettato magro (tacchino, pollo, bresaola)</p>
+    <h2 id="martedi-cena">Cena</h2>
+    <p id="martedi-cena-par">3 uova + 100g di pane integrale (circa 2 panini piccoli o 4 fette di pane in cassetta) <strong>oppure</strong></p>
+    <ul class="menu-elenco">
+      <li>2 pacchetti di crackers</li>
+      <li>7 gallette</li>
+      <li>90g di focaccia (circa 3 focaccine esselunga)</li>
+      <li>3 patate medie</li>
+    </ul>
+    <p>Aggiungi una porzione di verdure totalmente a scelta sia come varietà sia come quantità</p>
+  </section>
+
+  <!-- MERCOLEDI -->
+  <section id="mercoledi">
+    <h1>Mercoledì</h1>
+    <h2 id="mercoledi-colazione">Colazione</h2>
+    <p id="mercoledi-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra:</strong></p>
+    <ul class="menu-elenco">
+      <li>2 pancakes proteici Milkpro</li>
+      <li>3 Formelle Weetabix</li>
+      <li>2-3 manciate di cereali a scelta</li>
+      <li>5 biscotti a scelta</li>
+      <li>5 fette biscottate integrali</li>
+    </ul>
+    <h2 id="mercoledi-spuntinomattina">Spuntino Mattina</h2>
+    <p id="mercoledi-spuntinomattina-par">1 frutto grande o 2 piccoli <strong>oppure</strong></p>
+    <ul class="menu-elenco">
+      <li>1 yogurt greco 0%</li>
+      <li>1 barretta Special K</li>
+      <li>1 galletta + semi/granella a scelta</li>
+    </ul>
+    <h2 id="mercoledi-pranzo">Pranzo</h2>
+    <p id="mercoledi-pranzo-par">150g di pasta <strong>oppure</strong></p>
+    <ul class="menu-elenco">
+      <li>riso/farro/orzo/cous cous (meglio se integrali)</li>
+    </ul>
+    <p>+ verdure a scelta + massimo 2 cucchiai in totale tra olio, parmigiano e/o sugo</p>
+    <h2 id="mercoledi-spuntinopomeriggio">Spuntino Pomeriggio</h2>
+    <p id="mercoledi-spuntinopomeriggio-par">1 toast (2 fette pane in cassetta integrale) con 2-3 fette di affettato magro (tacchino, pollo, bresaola)</p>
+    <h2 id="mercoledi-cena">Cena</h2>
+    <p id="mercoledi-cena-par">Legumi a scelta + 100g di pane integrale (circa 2 panini piccoli o 4 fette di pane in cassetta) <strong>oppure</strong></p>
+    <ul class="menu-elenco">
+      <li>2 pacchetti di crackers</li>
+      <li>7 gallette</li>
+      <li>90g di focaccia (circa 3 focaccine esselunga)</li>
+      <li>3 patate medie</li>
+    </ul>
+    <p>Aggiungi una porzione di verdure totalmente a scelta sia come varietà sia come quantità</p>
+  </section>
+
+  <!-- GIOVEDI -->
+  <section id="giovedi">
+    <h1>Giovedì</h1>
+    <h2 id="giovedi-colazione">Colazione</h2>
+    <p id="giovedi-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra:</strong></p>
+    <ul class="menu-elenco">
+      <li>2 pancakes proteici Milkpro</li>
+      <li>3 Formelle Weetabix</li>
+      <li>2-3 manciate di cereali a scelta</li>
+      <li>5 biscotti a scelta</li>
+      <li>5 fette biscottate integrali</li>
+    </ul>
+    <h2 id="giovedi-spuntinomattina">Spuntino Mattina</h2>
+    <p id="giovedi-spuntinomattina-par">1 frutto grande (es. pesca/banana) o 2 piccoli (es. kiwi/albicocche)</p>
+    <h2 id="giovedi-pranzo">Pranzo</h2>
+    <p id="giovedi-pranzo-par">150g di pasta <strong>oppure</strong></p>
+    <ul class="menu-elenco">
+      <li>riso/farro/orzo/cous cous (meglio se integrali)</li>
+    </ul>
+    <p>+ verdure a scelta + massimo 2 cucchiai in totale tra olio, parmigiano e/o sugo</p>
+    <h2 id="giovedi-spuntinopomeriggio">Spuntino Pomeriggio</h2>
+    <p id="giovedi-spuntinopomeriggio-par">1 toast (2 fette pane in cassetta integrale) con 2-3 fette di affettato magro (tacchino, pollo, bresaola)</p>
+    <h2 id="giovedi-cena">Cena</h2>
+    <p id="giovedi-cena-par">1 hamburger di manzo o altra carne rossa magra + 100g di pane integrale (circa 2 panini piccoli o 4 fette di pane in cassetta) <strong>oppure</strong></p>
+    <ul class="menu-elenco">
+      <li>2 pacchetti di crackers</li>
+      <li>7 gallette</li>
+      <li>90g di focaccia (circa 3 focaccine esselunga)</li>
+      <li>3 patate medie</li>
+    </ul>
+    <p>Aggiungi una porzione di verdure totalmente a scelta sia come varietà sia come quantità</p>
+  </section>
+
+  <!-- VENERDI -->
+  <section id="venerdi">
+    <h1>Venerdì</h1>
+    <h2 id="venerdi-colazione">Colazione</h2>
+    <p id="venerdi-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra:</strong></p>
+    <ul class="menu-elenco">
+      <li>2 pancakes proteici Milkpro</li>
+      <li>3 Formelle Weetabix</li>
+      <li>2-3 manciate di cereali a scelta</li>
+      <li>5 biscotti a scelta</li>
+      <li>5 fette biscottate integrali</li>
+    </ul>
+    <h2 id="venerdi-spuntinomattina">Spuntino Mattina</h2>
+    <p id="venerdi-spuntinomattina-par">1 bustina monoporzione da 20-30g frutta secca <strong>oppure</strong></p>
+    <ul class="menu-elenco">
+      <li>1 yogurt greco 0%</li>
+      <li>1 barretta Special K</li>
+      <li>1 galletta + semi/granella a scelta</li>
+    </ul>
+    <h2 id="venerdi-pranzo">Pranzo</h2>
+    <p id="venerdi-pranzo-par">150g di pasta <strong>oppure</strong></p>
+    <ul class="menu-elenco">
+      <li>riso/farro/orzo/cous cous (meglio se integrali)</li>
+    </ul>
+    <p>+ verdure a scelta + massimo 2 cucchiai in totale tra olio, parmigiano e/o sugo</p>
+    <h2 id="venerdi-spuntinopomeriggio">Spuntino Pomeriggio</h2>
+    <p id="venerdi-spuntinopomeriggio-par">1 toast (2 fette pane in cassetta integrale) con 2-3 fette di affettato magro (tacchino, pollo, bresaola)</p>
+    <h2 id="venerdi-cena">Cena</h2>
+    <p id="venerdi-cena-par">Carne bianca (petto di pollo/tacchino) circa 2 fettine + 100g di pane integrale (circa 2 panini piccoli o 4 fette di pane in cassetta) <strong>oppure</strong></p>
+    <ul class="menu-elenco">
+      <li>2 pacchetti di crackers</li>
+      <li>7 gallette</li>
+      <li>90g di focaccia (circa 3 focaccine esselunga)</li>
+      <li>3 patate medie</li>
+    </ul>
+    <p>Aggiungi una porzione di verdure totalmente a scelta sia come varietà sia come quantità</p>
+  </section>
+
+  <!-- SABATO -->
+  <section id="sabato">
+    <h1>Sabato</h1>
+    <h2 id="sabato-colazione">Colazione</h2>
+    <p id="sabato-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra:</strong></p>
+    <ul class="menu-elenco">
+      <li>2 pancakes proteici Milkpro</li>
+      <li>3 Formelle Weetabix</li>
+      <li>2-3 manciate di cereali a scelta</li>
+      <li>5 biscotti a scelta</li>
+      <li>5 fette biscottate integrali</li>
+    </ul>
+    <h2 id="sabato-spuntinomattina">Spuntino Mattina</h2>
+    <p id="sabato-spuntinomattina-par">NO spuntino</p>
+    <h2 id="sabato-pranzo">Pranzo</h2>
+    <p id="sabato-pranzo-par">100g di pasta al pomodoro con 1 cucchiaio di olio + verdure a scelta e quantità libera</p>
+    <h2 id="sabato-spuntinopomeriggio">Spuntino Pomeriggio</h2>
+    <p id="sabato-spuntinopomeriggio-par">NO spuntino</p>
+    <h2 id="sabato-cena">Cena</h2>
+    <p id="sabato-cena-par">Pasto libero</p>
+  </section>
+
+  <!-- DOMENICA -->
+  <section id="domenica">
+    <h1>Domenica</h1>
+    <h2 id="domenica-colazione">Colazione</h2>
+    <p id="domenica-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra:</strong></p>
+    <ul class="menu-elenco">
+      <li>2 pancakes proteici Milkpro</li>
+      <li>3 Formelle Weetabix</li>
+      <li>2-3 manciate di cereali a scelta</li>
+      <li>5 biscotti a scelta</li>
+      <li>5 fette biscottate integrali</li>
+    </ul>
+    <h2 id="domenica-spuntinomattina">Spuntino Mattina</h2>
+    <p id="domenica-spuntinomattina-par">NO spuntino</p>
+    <h2 id="domenica-pranzo">Pranzo</h2>
+    <p id="domenica-pranzo-par">Pasto libero</p>
+    <h2 id="domenica-spuntinopomeriggio">Spuntino Pomeriggio</h2>
+    <p id="domenica-spuntinopomeriggio-par">NO spuntino</p>
+    <h2 id="domenica-cena">Cena</h2>
+    <p id="domenica-cena-par">2 scatolette piccole di tonno al naturale <strong>oppure</strong></p>
+    <ul class="menu-elenco">
+      <li>1 busta di salmone affumicato</li>
+      <li>un filetto/trancio di pesce a scelta</li>
+    </ul>
+    <p>+ 50g di pane integrale (1 panino piccolo o 2 fette di pane in cassetta) <strong>oppure</strong></p>
+    <ul class="menu-elenco">
+      <li>3,5 gallette</li>
+    </ul>
+    <p>+ una porzione di verdure totalmente a scelta sia come varietà sia come quantità, condisci con 2 cucchiai di olio</p>
+  </section>
+
+  <div class="note" id="note">
+    <strong>Note/integrazione</strong>
+    <ul>
+      <li>Bevi almeno 2,5L di acqua al giorno.</li>
+      <li>Sono consentiti 2 pasti liberi a settimana (possono essere spostati nell’arco della settimana) e 1 cono gelato a settimana (oltre ai pasti liberi).</li>
+    </ul>
+  </div>
+
+  <button id="toTopBtn" title="Torna su" aria-label="Torna all'inizio della pagina">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path d="M12 19V5" stroke-width="2" stroke-linecap="round"/>
+      <path d="M5 12l7-7 7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <script>
+    // Pulsante scroll to top
+    document.getElementById('toTopBtn').onclick = function() {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    };
+    window.addEventListener('scroll', function() {
+      var btn = document.getElementById('toTopBtn');
+      if (window.scrollY > 300) {
+        btn.style.display = 'flex';
+      } else {
+        btn.style.display = 'none';
+      }
+    });
+    document.getElementById('toTopBtn').style.display = 'none';
+
+    // Auto-scroll to today section on page load
+    window.addEventListener('DOMContentLoaded', function() {
+      // Giorni per id sezione
+      var giorni = [
+        "domenica",
+        "lunedi",
+        "martedi",
+        "mercoledi",
+        "giovedi",
+        "venerdi",
+        "sabato"
+      ];
+      var oggi = new Date().getDay(); // 0: domenica ... 6: sabato
+      // Scroll only if not already anchored (from hash or reload)
+      if (!window.location.hash || window.location.hash === "#top" || window.location.hash === "#") {
+        var id = giorni[oggi];
+        var section = document.getElementById(id);
+        if (section) {
+          section.scrollIntoView({behavior: "smooth", block: "start"});
+        }
+      }
+
+      // Toast logic
+      function showToast() {
+        var toast = document.getElementById('info-toast');
+        toast.style.display = 'flex';
+      }
+      function hideToast() {
+        var toast = document.getElementById('info-toast');
+        toast.style.display = 'none';
+      }
+      document.querySelector('#info-toast .toast-close').onclick = hideToast;
+
+      // Evidenziazione e toast
+      function evidenziaOrario() {
+        // Rimuovi highlight ovunque prima
+        document.querySelectorAll('.highlight').forEach(function(el) {
+          el.classList.remove('highlight');
+        });
+        // Nascondi toast
+        hideToast();
+        var giorni = [
+          "domenica",
+          "lunedi",
+          "martedi",
+          "mercoledi",
+          "giovedi",
+          "venerdi",
+          "sabato"
+        ];
+        var now = new Date();
+        var oggi = now.getDay();
+        var ore = now.getHours();
+        var minuti = now.getMinutes();
+        var idGiorno = giorni[oggi];
+        var fascia = null;
+        var timeMin = ore * 60 + minuti;
+        /*
+          - 5:30 - 10:00 => colazione
+          - 10:01 - 12:00 => spuntino mattina
+          - 12:01 - 14:30 => pranzo
+          - 14:31 - 17:30 => spuntino pomeriggio
+          - 17:31 - 22:30 => cena
+          - 22:31 - 5:29 => nessuna fascia, mostra toast
+        */
+        if (timeMin >= 330 && timeMin <= 600) { // 5:30 - 10:00
+          fascia = 'colazione';
+        } else if (timeMin >= 601 && timeMin <= 720) { // 10:01 - 12:00
+          fascia = 'spuntinomattina';
+        } else if (timeMin >= 721 && timeMin <= 870) { // 12:01 - 14:30
+          fascia = 'pranzo';
+        } else if (timeMin >= 871 && timeMin <= 1050) { // 14:31 - 17:30
+          fascia = 'spuntinopomeriggio';
+        } else if (timeMin >= 1051 && timeMin <= 1350) { // 17:31 - 22:30
+          fascia = 'cena';
+        }
+        if (fascia) {
+          // Evidenzia h2 e relativo paragrafo
+          var h2 = document.getElementById(idGiorno + '-' + fascia);
+          var p = document.getElementById(idGiorno + '-' + fascia + '-par');
+          if (h2) h2.classList.add("highlight");
+          if (p) p.classList.add("highlight");
+        } else {
+          // Mostra toast solo se NON in fascia oraria
+          showToast();
+        }
+      }
+
+      evidenziaOrario();
+      setInterval(evidenziaOrario, 60000);
+    });
+  </script>
+
+  <!-- Toast message -->
+  <div id="info-toast" role="alert" aria-live="polite" style="display:none;">
+    <span class="toast-icon" aria-hidden="true">
+      <!-- info icon svg -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <circle cx="12" cy="12" r="10" stroke-width="2" stroke="#f6c700" fill="none"/>
+        <line x1="12" y1="8" x2="12" y2="12.5" stroke-width="2.2" stroke="#f6c700" stroke-linecap="round"/>
+        <circle cx="12" cy="16.2" r="1.25" fill="#f6c700"/>
+      </svg>
+    </span>
+    <span class="toast-msg">
+      Ti ricordo che in questa fascia oraria non è previsto nessun alimento: pensa al vero motivo per cui hai fame. Al massimo, ti consiglio di bere dell'acqua.
+    </span>
+    <button class="toast-close" title="Chiudi" aria-label="Chiudi">&times;</button>
+  </div>
+
+
+</body>
+</html>
