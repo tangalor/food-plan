@@ -41,10 +41,10 @@
       line-height: 1.55;
     }
     body {
-      padding-top: 0;
-      padding-bottom: 2em;
-      padding-left: 1em;
-      padding-right: 1em;
+      padding-top: 0em;
+      padding-bottom: 10em;
+      padding-left: 4em;
+      padding-right: 4em;
     }
     .nav {
       margin: 2em 0 2em 0;
@@ -121,6 +121,47 @@
       padding: 0;
     }
 
+    /* Header styles */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1em;
+      margin: 1.5em 0 1em 0;
+      padding: 1em 0;
+    }
+    .logo {
+      margin-bottom: 0;
+    }
+    .logo-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(21,111,162,0.15);
+    }
+    .main-title {
+      font-size: 2.5em;
+      color: var(--primary);
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    
+    @media (max-width: 600px) {
+      .logo-img {
+        width: 60px;
+        height: 60px;
+      }
+      .main-title {
+        font-size: 1.8em;
+      }
+      .header {
+        margin: 1em 0 0.8em 0;
+        padding: 0.8em 0;
+        gap: 0.7em;
+      }
+    }
+    
     /* Toast message box */
     #info-toast {
       display: none;
@@ -157,14 +198,14 @@
         left: 2vw;
         right: 2vw;
         padding: 0.7em 1em 0.7em 0.7em;
-        font-size: 0.95em;
+        font-size: 1.05em;
       }
     }
 
-    }
+
     .toast-icon {
-      min-width: 28px;
-      width: 28px;
+      min-width: 48px;
+      width: 48px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -183,11 +224,11 @@
         left: 2vw;
         right: 2vw;
         padding: 0.7em 1em 0.7em 0.6em; /* più spazio a sinistra */
-        font-size: 0.95em;
+        font-size: 1.05em;
       }
       .toast-icon {
-        min-width: 22px;
-        width: 22px;
+        min-width: 48px;
+        width: 48px;
       }
       .toast-icon svg {
         width: 18px;
@@ -196,16 +237,16 @@
     }
     @media (max-width: 400px) {
       #info-toast {
-        font-size: 0.86em;
+        font-size: 1.06em;
         padding-left: 0.4em;
       }
       .toast-icon {
-        min-width: 18px;
-        width: 18px;
+        min-width: 48px;
+        width: 48px;
       }
       .toast-icon svg {
-        width: 14px;
-        height: 14px;
+        width: 24px;
+        height: 24px;
       }
     }
 
@@ -260,8 +301,8 @@
         font-size: 0.98em;
       }
       body {
-        padding-left: 2vw;
-        padding-right: 2vw;
+        padding-left: 4vw;
+        padding-right: 4vw;
       }
     }
     @media (max-width: 600px) {
@@ -301,19 +342,298 @@
         height: 18px;
       }
       body {
-        padding-left: 1vw;
-        padding-right: 1vw;
+        padding-left: 4vw;
+        padding-right: 4vw;
       }
     }
     .nav a:focus-visible, #toTopBtn:focus-visible {
       outline: 2px solid #1976d2;
       outline-offset: 2px;
     }
+
+    #waterGlass {
+      position: fixed;
+      bottom: 32px;
+      left: 32px;
+      width: 120px;
+      height: 168px;
+      z-index: 1000;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    #waterGlass:hover {
+      transform: scale(1.1);
+    }
+    @media (max-width: 600px) {
+      #waterGlass {
+        width: 96px;
+        height: 134px;
+        bottom: 10px;
+        left: 10px;
+      }
+    }
+
+
+
+
+    #waterControls {
+      position: fixed;
+      bottom: 32px;
+      left: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      z-index: 1000;
+    }
+
+    .water-percentage {
+      position: absolute;
+      top: 38px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.8em;
+      color: var(--primary);
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2px 6px;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+      z-index: 1002;
+      pointer-events: none;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .water-liters {
+      font-size: 0.85em;
+      color: var(--primary-light);
+      font-weight: 600;
+      margin-top: 1px;
+    }
+    
+    #waterGlass {
+      width: 120px;
+      height: 168px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      position: relative;
+    }
+    #waterGlass:hover {
+      transform: scale(1.1);
+    }
+    
+    .water-buttons {
+      display: flex;
+      gap: 8px;
+      padding-left: 65px;
+      margin-top: -27px;
+    }
+    
+    .water-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(21,111,162,0.18);
+      cursor: pointer;
+      transition: background 0.18s, box-shadow 0.18s, opacity 0.18s;
+      opacity: 0.88;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+    
+    .water-btn:hover, .water-btn:focus {
+      background: var(--primary-light);
+      box-shadow: 0 8px 24px rgba(21,111,162,0.22);
+      opacity: 1;
+      outline: none;
+    }
+    
+    .water-btn:focus-visible {
+      outline: 2px solid #1976d2;
+      outline-offset: 2px;
+    }
+    
+    @media (max-width: 600px) {
+      #waterControls {
+        bottom: 10px;
+        left: 10px;
+        gap: 6px;
+      }
+      .water-percentage {
+        top: 33px;
+        font-size: 0.75em;
+        padding: 1px 4px;
+      }
+      .water-liters {
+        font-size: 1em;
+      }
+      #waterGlass {
+        width: 96px;
+        height: 134px;
+      }
+      .water-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 1.2em;
+      }
+      .water-buttons {
+        padding-left: 25px;
+        gap: 10px;
+        margin-top: -7px;
+      }
+    }
+
+
+        /* Animazione coriandoli */
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+    
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      animation: confetti-fall 7s linear infinite;
+    }
+    
+    .confetti:nth-child(odd) {
+      background: #ff6b6b;
+      animation-delay: -0.5s;
+    }
+    
+    .confetti:nth-child(even) {
+      background: #4ecdc4;
+      animation-delay: -1s;
+    }
+    
+    .confetti:nth-child(3n) {
+      background: #45b7d1;
+      width: 8px;
+      height: 8px;
+      animation-delay: -1.5s;
+    }
+    
+    .confetti:nth-child(4n) {
+      background: #f9ca24;
+      width: 12px;
+      height: 12px;
+      animation-delay: -2s;
+    }
+    
+    .confetti:nth-child(5n) {
+      background: #6c5ce7;
+      animation-delay: -2.5s;
+    }
+    
+    .confetti:nth-child(6n) {
+      background: #fd79a8;
+      width: 6px;
+      height: 6px;
+      animation-delay: -3s;
+    }
+    
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+    
+    .confetti-square {
+      border-radius: 0;
+      transform: rotate(45deg);
+    }
+    
+    .confetti-triangle {
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 10px solid;
+      border-radius: 0;
+    }
+    
+
+
+    /* Toast message box verde per il successo */
+    #success-toast {
+      display: none;
+      position: fixed;
+      top: 30%;
+      right: 0;
+      left: 0;
+      margin-left: auto;
+      margin-right: auto;
+      min-width: 220px;
+      max-width: 380px;
+      z-index: 2000;
+      background: #e8f5e8;
+      color: #2e5d2e;
+      border: 1.5px solid #4caf50;
+      box-shadow: 0 6px 24px rgba(76, 175, 80, 0.3);
+      border-radius: 10px;
+      padding: 1.1em 1.6em 1.1em 1.1em;
+      font-size: 1.07em;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7em;
+      animation: fadein 0.6s;
+      margin-top: 24px;
+      margin-bottom: 0;
+      box-sizing: border-box;
+    }
+    
+    @media (max-width: 600px) {
+      #success-toast {
+        min-width: 120px;
+        max-width: 98vw;
+        left: 2vw;
+        right: 2vw;
+        padding: 0.7em 1em 0.7em 0.6em;
+        font-size: 1.05em;
+      }
+    }
+    
+    @media (max-width: 400px) {
+      #success-toast {
+        font-size: 1.06em;
+        padding-left: 0.4em;
+      }
+    }
+
   </style>
 </head>
 <body>
 
   <a id="top"></a>
+
+  <!-- Header con logo e titolo -->
+  <header class="header">
+    <div class="logo">
+      <img src="icon-512.png" alt="Food Plan Logo" class="logo-img">
+    </div>
+    <h1 class="main-title">Food Plan</h1>
+  </header>
+
   <nav class="nav" aria-label="Vai al giorno">
     <a href="#lunedi">Lunedì</a>
     <a href="#martedi">Martedì</a>
@@ -684,7 +1004,214 @@
 
       evidenziaOrario();
       setInterval(evidenziaOrario, 60000);
-    });
+
+
+
+      // Variabile globale per il livello dell'acqua (0-100)
+      var waterLevel = 0;
+      var waterIncrement = 100/13; // ~7.69 per ogni click
+
+      // Funzione per ottenere la data corrente in formato YYYY-MM-DD
+      function getCurrentDate() {
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = String(today.getMonth() + 1).padStart(2, '0');
+        var day = String(today.getDate()).padStart(2, '0');
+        return year + '-' + month + '-' + day;
+      }
+
+      // Carica il livello dell'acqua dal sessionStorage
+      function loadWaterLevel() {
+        var savedLevel = sessionStorage.getItem('waterLevel');
+        var savedDate = sessionStorage.getItem('waterDate');
+        var currentDate = getCurrentDate();
+        
+        // Se non c'è una data salvata o la data è cambiata, resetta tutto
+        if (!savedDate || savedDate !== currentDate) {
+          waterLevel = 0;
+          sessionStorage.setItem('waterDate', currentDate);
+          sessionStorage.setItem('waterLevel', '0');
+          console.log('Nuovo giorno rilevato (' + currentDate + '), waterLevel resettato a 0');
+        } else if (savedLevel !== null) {
+          // Stesso giorno, carica il livello salvato
+          waterLevel = parseFloat(savedLevel);
+          // Assicurati che sia nel range valido
+          waterLevel = Math.max(0, Math.min(100, waterLevel));
+          console.log('Livello acqua caricato per oggi (' + currentDate + '):', waterLevel.toFixed(2) + '%');
+        }
+      }
+
+      // Salva il livello dell'acqua nel sessionStorage
+      function saveWaterLevel() {
+        var currentDate = getCurrentDate();
+        sessionStorage.setItem('waterLevel', waterLevel.toString());
+        sessionStorage.setItem('waterDate', currentDate);
+      }
+
+      // Funzione per aggiornare l'SVG del bicchiere
+      function updateWaterGlass(level) {
+        var svg = document.querySelector('#waterGlass svg');
+        var waterPath = svg.querySelector('.water-fill');
+        var waterReflection = svg.querySelector('.water-reflection');
+        
+        // Rimuovi elementi acqua esistenti
+        if (waterPath) waterPath.remove();
+        if (waterReflection) waterReflection.remove();
+        
+        if (level > 0) {
+          // Calcola la posizione Y dell'acqua basata sulla percentuale
+          // Bicchiere va da y=24 (top) a y=156 (bottom), altezza totale = 132
+          var waterHeight = (level / 100) * 132;
+          var waterTop = 156 - waterHeight;
+          
+          // Calcola la larghezza in base alla forma trapezoidale del bicchiere
+          var topWidth = 81.6; // Larghezza in alto (100.8 - 19.2)
+          var bottomWidth = 72; // Larghezza in basso (96 - 24)
+          var currentTopWidth = topWidth - (topWidth - bottomWidth) * (waterTop - 24) / 132;
+          
+          var leftTop = 60 - currentTopWidth / 2;
+          var rightTop = 60 + currentTopWidth / 2;
+          var leftBottom = 60 - bottomWidth / 2;
+          var rightBottom = 60 + bottomWidth / 2;
+          
+          // Crea il path dell'acqua
+          var waterPathElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          waterPathElement.setAttribute('class', 'water-fill');
+          waterPathElement.setAttribute('d', 'M' + leftTop + ' ' + waterTop + ' L' + rightTop + ' ' + waterTop + ' L' + rightBottom + ' 156 L' + leftBottom + ' 156 Z');
+          waterPathElement.setAttribute('fill', '#87ceeb');
+          waterPathElement.setAttribute('opacity', '0.7');
+          
+          // Crea il riflesso
+          var reflectionElement = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+          reflectionElement.setAttribute('class', 'water-reflection');
+          reflectionElement.setAttribute('cx', '48');
+          reflectionElement.setAttribute('cy', waterTop + waterHeight * 0.3);
+          reflectionElement.setAttribute('rx', '19.2');
+          reflectionElement.setAttribute('ry', Math.max(3, waterHeight * 0.08));
+          reflectionElement.setAttribute('fill', '#b8e0f5');
+          reflectionElement.setAttribute('opacity', '0.6');
+          
+          // Inserisci gli elementi nell'SVG (dopo il contorno ma prima del bordo superiore)
+          var contour = svg.querySelector('path');
+          svg.insertBefore(waterPathElement, contour.nextSibling);
+          svg.insertBefore(reflectionElement, waterPathElement.nextSibling);
+        }
+      }
+
+      // Funzione per aggiornare la percentuale e i litri mostrati
+      function updateWaterPercentage(level) {
+        var percentageElement = document.getElementById('waterPercentage');
+        var litersElement = document.getElementById('waterLiters');
+        var liters = (level / 100) * 2.5; // 2.5L è il 100%
+        
+        percentageElement.childNodes[0].textContent = Math.round(level) + '%';
+        litersElement.textContent = liters.toFixed(1) + 'L';
+      }
+
+      // Gestori eventi per i pulsanti
+      document.getElementById('waterPlus').addEventListener('click', function() {
+        if (waterLevel < 100) {
+          var prevLevel = waterLevel;
+          waterLevel = Math.min(100, waterLevel + waterIncrement);
+          console.log('Pulsante +: livello prima del click:', prevLevel.toFixed(2), '→ livello dopo:', waterLevel.toFixed(2));
+          updateWaterGlass(waterLevel);
+          updateWaterPercentage(waterLevel);
+          saveWaterLevel(); // Salva nel sessionStorage con la data
+
+          // Celebra se ha raggiunto il 100%
+          if (waterLevel >= 100 && prevLevel < 100) {
+            setTimeout(celebrate, 300); // Piccolo ritardo per far vedere l'aggiornamento
+          }
+        }
+      });
+
+      document.getElementById('waterMinus').addEventListener('click', function() {
+        if (waterLevel > 0) {
+          var prevLevel = waterLevel;
+          waterLevel = Math.max(0, waterLevel - waterIncrement);
+          console.log('Pulsante -: livello prima del click:', prevLevel.toFixed(2), '→ livello dopo:', waterLevel.toFixed(2));
+          updateWaterGlass(waterLevel);
+          updateWaterPercentage(waterLevel);
+          saveWaterLevel(); // Salva nel sessionStorage con la data
+        }
+      });
+
+      // Carica il livello salvato e inizializza il bicchiere al caricamento della pagina
+      loadWaterLevel();
+      updateWaterGlass(waterLevel);
+      updateWaterPercentage(waterLevel);
+
+
+
+
+       // Funzione per creare i coriandoli
+      function createConfetti() {
+        var container = document.getElementById('confettiContainer');
+        container.innerHTML = ''; // Pulisce eventuali coriandoli precedenti
+        container.style.display = 'block';
+        
+        // Crea 150 coriandoli
+        for (var i = 0; i < 150; i++) {
+          var confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          
+          // Forme casuali
+          var shapes = ['', 'confetti-square', 'confetti-triangle'];
+          var randomShape = shapes[Math.floor(Math.random() * shapes.length)];
+          if (randomShape) confetti.classList.add(randomShape);
+          
+          // Posizione casuale orizzontale
+          confetti.style.left = Math.random() * 100 + '%';
+          
+          // Ritardo casuale
+          confetti.style.animationDelay = '-' + (Math.random() * 3) + 's';
+          
+          // Durata leggermente variabile
+          confetti.style.animationDuration = (6 + Math.random() * 2) + 's';
+          
+          container.appendChild(confetti);
+        }
+        
+        // Rimuovi i coriandoli dopo 7 secondi
+        setTimeout(function() {
+          container.style.display = 'none';
+        }, 18000);
+      }
+      
+      // Funzione per riprodurre l'audio di vittoria
+      function playVictorySound() {
+        var audio = document.getElementById('victorySound');
+        if (audio) {
+          audio.currentTime = 0; // Riavvolgi all'inizio
+          audio.play().catch(function(error) {
+            console.log('Impossibile riprodurre l\'audio:', error);
+          });
+        }
+      }
+
+      // Funzioni per il toast di successo
+      function showSuccessToast() {
+        var toast = document.getElementById('success-toast');
+        toast.style.display = 'flex';
+        
+      }
+      
+      function hideSuccessToast() {
+        var toast = document.getElementById('success-toast');
+        toast.style.display = 'none';
+      }
+      document.querySelector('#success-toast .toast-close').onclick = hideSuccessToast;
+      
+      // Funzione per celebrare il raggiungimento del 100%
+      function celebrate() {
+        createConfetti();
+        playVictorySound();
+        showSuccessToast(); // Mostra il toast verde
+        console.log('🎉 Congratulazioni! Hai raggiunto il 100% dell\'obiettivo giornaliero di acqua!');
+      }
+
+    }); // fine DOMContentLoaded
+
 
     // Ricarica la pagina ogni volta che torna in foreground
     document.addEventListener('visibilitychange', function() {
@@ -692,24 +1219,72 @@
         window.location.reload();
       }
     });
+
+
+    
   </script>
 
   <!-- Toast message -->
   <div id="info-toast" role="alert" aria-live="polite" style="display:none;">
     <span class="toast-icon" aria-hidden="true">
-      <!-- info icon svg -->
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <circle cx="12" cy="12" r="10" stroke-width="2" stroke="#f6c700" fill="none"/>
-        <line x1="12" y1="8" x2="12" y2="12.5" stroke-width="2.2" stroke="#f6c700" stroke-linecap="round"/>
-        <circle cx="12" cy="16.2" r="1.25" fill="#f6c700"/>
-      </svg>
+      <img src="lamp.png" alt="Attenzione" class="toast-icon">
     </span>
     <span class="toast-msg">
-      Ti ricordo che in questa fascia oraria non è previsto nessun alimento: pensa al vero motivo per cui hai fame. Al massimo, ti consiglio di bere dell'acqua.
+      <b>Hai fame?</b> Ti ricordo che in questa fascia oraria non è previsto nessun alimento: pensa al vero motivo per cui hai fame. Al massimo, ti consiglio di bere dell'acqua.
     </span>
     <button class="toast-close" title="Chiudi" aria-label="Chiudi">&times;</button>
   </div>
 
+
+
+  <!-- Controlli bicchiere d'acqua -->
+  <div id="waterControls">
+    
+    <!-- Bicchiere d'acqua -->
+    <div id="waterGlass" title="Ricordati di bere acqua!">
+      <!-- Percentuale dentro al bicchiere -->
+      <div class="water-percentage" id="waterPercentage">0%
+        <div class="water-liters" id="waterLiters">0.0L</div>
+      </div>
+      
+      <svg viewBox="0 0 120 168" xmlns="http://www.w3.org/2000/svg">
+        <!-- Contorno del bicchiere -->
+        <path d="M19.2 24 L100.8 24 L96 156 L24 156 Z" fill="none" stroke="#4a90e2" stroke-width="2.4" opacity="0.8"/>
+ 
+        <!-- Bordo superiore del bicchiere - riempito di azzurro chiaro -->
+        <ellipse cx="60" cy="24" rx="40.8" ry="4.8" fill="#e6f3ff" stroke="#4a90e2" stroke-width="2.4" opacity="0.8"/>
+      </svg>
+    </div>
+    
+    <!-- Pulsanti controllo -->
+    <div class="water-buttons">
+      <button class="water-btn" id="waterMinus" title="Diminuisci acqua" aria-label="Diminuisci livello acqua">−</button>
+      <button class="water-btn" id="waterPlus" title="Aumenta acqua" aria-label="Aumenta livello acqua">+</button>
+    </div>
+  </div>
+
+   <!-- Toast message verde per il successo -->
+  <div id="success-toast" role="alert" aria-live="polite" style="display:none;">
+    <span class="toast-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#4caf50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 12l2 2 4-4"/>
+        <circle cx="12" cy="12" r="10"/>
+      </svg>
+    </span>
+    <span class="toast-msg">
+      <b>Complimenti!</b> Oggi sei riuscito a bere 2,5L di acqua e questo ti aiuterà a stare molto meglio. Buona vita!
+    </span>
+    <button class="toast-close" title="Chiudi" aria-label="Chiudi" onclick="javascript:hideSuccessToast()">&times;</button>
+  </div>
+
+   <!-- Container per i coriandoli -->
+  <div id="confettiContainer" class="confetti-container" style="display: none;"></div>
+
+  <!-- Audio per la vittoria -->
+  <audio id="victorySound" preload="auto">
+    <source src="victory.mp3" type="audio/mpeg">
+     <!-- <source src="victory.wav" type="audio/wav"> -->
+  </audio>
 
 </body>
 </html>

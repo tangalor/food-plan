@@ -1,0 +1,159 @@
+<svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sfondo verde -->
+  <rect width="192" height="192" rx="38" fill="#38b46a"/>
+  <!-- Piatto bianco -->
+  <circle cx="96" cy="96" r="52" fill="#fff" stroke="#e4efea" stroke-width="5"/>
+  <circle cx="96" cy="96" r="28" fill="#e4efea"/>
+  <!-- Cuore rosso grande e ben definito in basso a destra -->
+  <g>
+    <path
+      d="M155 124
+         c-8 -14 -32 -14 -40 7
+         -8 -21 -32 -21 -40 -7
+         -7 13 3 29 17 40
+         10 7 18 11 23 14
+         5 -3 13 -7 23 -14
+         14 -11 24 -27 17 -40
+         z"
+      fill="#e74c3c"
+      stroke="#b4261f"
+      stroke-width="3"
+    />
+    <!-- Lucentezza sul cuore -->
+    <path
+      d="M133 134
+         c-2 -4 -8 -4 -10 2"
+      stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+  </g>
+</svg>
+
+
+
+
+
+
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sfondo verde -->
+  <rect width="512" height="512" rx="102" fill="#38b46a"/>
+  <!-- Piatto bianco -->
+  <circle cx="256" cy="256" r="138" fill="#fff" stroke="#e4efea" stroke-width="14"/>
+  <circle cx="256" cy="256" r="74" fill="#e4efea"/>
+  <!-- Cuore rosso grande e ben definito in basso a destra -->
+  <g>
+    <path
+      d="M413 330
+         c-21 -37 -86 -37 -107 19
+         -21 -56 -86 -56 -107 -19
+         -19 34 8 74 46 102
+         27 17 48 28 61 36
+         13 -8 34 -19 61 -36
+         38 -28 65 -68 46 -102
+         z"
+      fill="#e74c3c"
+      stroke="#b4261f"
+      stroke-width="8"
+    />
+    <!-- Lucentezza sul cuore -->
+    <path
+      d="M357 353
+         c-5 -11 -21 -11 -26 6"
+      stroke="#fff" stroke-width="6" stroke-linecap="round" opacity="0.5"/>
+  </g>
+</svg>
+
+
+
+
+
+
+<svg viewBox="0 0 192 192" width="192" height="192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <polygon 
+    points="96,24 36,112 88,112 72,168 156,80 108,80 120,24" 
+    fill="#f6c700" 
+    stroke="#c69400" 
+    stroke-width="14" 
+    stroke-linejoin="round"
+  />
+</svg>
+
+
+
+
+
+
+
+  <!-- Bicchiere d'acqua -->
+  <div id="waterGlass" title="Ricordati di bere acqua!">
+    <svg viewBox="0 0 120 168" xmlns="http://www.w3.org/2000/svg">
+      <!-- Contorno del bicchiere -->
+      <path d="M19.2 24 L100.8 24 L96 156 L24 156 Z" fill="none" stroke="#4a90e2" stroke-width="2.4" opacity="0.8"/>
+      <!-- Acqua (metà bicchiere) -->
+      <path d="M25.2 90 L94.8 90 L91.7 151.2 L28.3 151.2 Z" fill="#87ceeb" opacity="0.7"/>
+      <!-- Riflesso sull'acqua -->
+      <ellipse cx="48" cy="100.8" rx="19.2" ry="7.2" fill="#b8e0f5" opacity="0.6"/>
+      <!-- Bordo superiore del bicchiere - riempito di azzurro chiaro -->
+      <ellipse cx="60" cy="24" rx="40.8" ry="4.8" fill="#e6f3ff" stroke="#4a90e2" stroke-width="2.4" opacity="0.8"/>
+    </svg>
+  </div>
+
+
+
+bicchiere VUOTO
+
+
+<svg viewBox="0 0 120 168" xmlns="http://www.w3.org/2000/svg">
+      <!-- Contorno del bicchiere -->
+      <path d="M19.2 24 L100.8 24 L96 156 L24 156 Z" fill="none" stroke="#4a90e2" stroke-width="2.4" opacity="0.8"/>  
+      <!-- Bordo superiore del bicchiere - riempito di azzurro chiaro -->
+      <ellipse cx="60" cy="24" rx="40.8" ry="4.8" fill="#e6f3ff" stroke="#4a90e2" stroke-width="2.4" opacity="0.8"/>
+    </svg>
+
+
+
+
+bicchiere pieno al 50%
+
+<svg viewBox="0 0 120 168" xmlns="http://www.w3.org/2000/svg">
+      <!-- Contorno del bicchiere -->
+      <path d="M19.2 24 L100.8 24 L96 156 L24 156 Z" fill="none" stroke="#4a90e2" stroke-width="2.4" opacity="0.8"/>
+      <!-- Acqua (metà bicchiere) -->
+      <path d="M25.2 90 L94.8 90 L91.7 151.2 L28.3 151.2 Z" fill="#87ceeb" opacity="0.7"/>
+      <!-- Riflesso sull'acqua -->
+      <ellipse cx="48" cy="100.8" rx="19.2" ry="7.2" fill="#b8e0f5" opacity="0.6"/>
+      <!-- Bordo superiore del bicchiere - riempito di azzurro chiaro -->
+      <ellipse cx="60" cy="24" rx="40.8" ry="4.8" fill="#e6f3ff" stroke="#4a90e2" stroke-width="2.4" opacity="0.8"/>
+    </svg>
+
+100%
+
+<!-- Acqua (100% bicchiere) -->
+  <path d="M19.2 24 L100.8 24 L96 156 L24 156 Z" fill="#87ceeb" opacity="0.7"/>
+  
+
+40%
+
+<!-- Acqua (40% bicchiere) -->
+  <path d="M27.6 118.4 L92.4 118.4 L90.4 151.2 L29.6 151.2 Z" fill="#87ceeb" opacity="0.7"/>
+
+  20%
+
+<!-- Acqua (20% bicchiere) -->
+  <path d="M26.4 136.8 L93.6 136.8 L92.2 151.2 L27.8 151.2 Z" fill="#87ceeb" opacity="0.7"/>
+  
+
+  60%
+
+  <!-- Acqua (80% bicchiere) -->
+  <path d="M24 81.6 L96 81.6 L86.8 151.2 L33.2 151.2 Z" fill="#87ceeb" opacity="0.7"/>
+  
+
+80%
+
+<!-- Acqua (80% bicchiere) -->
+  <path d="M21.6 50.4 L98.4 50.4 L92.8 151.2 L27.2 151.2 Z" fill="#87ceeb" opacity="0.7"/>
+  
+
+
+
+
+
