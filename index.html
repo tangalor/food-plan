@@ -619,6 +619,13 @@
           var p = document.getElementById(idGiorno + '-' + fascia + '-par');
           if (h2) h2.classList.add("highlight");
           if (p) p.classList.add("highlight");
+          // Scrolla il primo elemento evidenziato al centro dello schermo
+          setTimeout(function() {
+            var evidenziato = document.querySelector('.highlight');
+            if (evidenziato) {
+              evidenziato.scrollIntoView({behavior: "smooth", block: "center"});
+            }
+          }, 120); // Timeout breve per assicurare che l'highlight sia applicato
         } else {
           // Mostra toast solo se NON in fascia oraria
           showToast();
@@ -627,6 +634,13 @@
 
       evidenziaOrario();
       setInterval(evidenziaOrario, 60000);
+    });
+
+    // Ricarica la pagina ogni volta che torna in foreground
+    document.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'visible') {
+        window.location.reload();
+      }
     });
   </script>
 
