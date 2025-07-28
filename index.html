@@ -1015,13 +1015,13 @@
 
       // Giorni per id sezione
       var giorni = [
-        "domenica",
         "lunedi",
         "martedi",
         "mercoledi",
         "giovedi",
         "venerdi",
-        "sabato"
+        "sabato",
+        "domenica"
       ];
       var oggi = new Date().getDay(); // 0: domenica ... 6: sabato
       // Scroll only if not already anchored (from hash or reload)
@@ -1277,7 +1277,7 @@
         var swipeDistance = touchEndX - touchStartX;
         
         // Swipe a destra (vai al giorno successivo) - INVERTITO
-        if (swipeDistance > minSwipeDistance) {
+        if (swipeDistance < -minSwipeDistance) {
           // Se siamo domenica, non permettere di andare avanti
           if (currentDay === 'domenica') return;
           
@@ -1292,7 +1292,7 @@
           navigateToDay(nextDay, true);
         }
         // Swipe a sinistra (vai al giorno precedente) - INVERTITO
-        else if (swipeDistance < -minSwipeDistance) {
+        else if (swipeDistance > minSwipeDistance) {
           // Se siamo lunedì, non permettere di andare indietro
           if (currentDay === 'lunedi') return;
           
