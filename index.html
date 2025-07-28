@@ -642,34 +642,7 @@
       100% { transform: translateX(0); opacity: 1; }
     }
     
-    /* Toast per lo swipe */
-    #swipe-toast {
-      position: fixed;
-      bottom: 80px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 0.9em;
-      z-index: 3000;
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-    }
-    
-    #swipe-toast.show {
-      opacity: 1;
-    }
-    
-    @media (max-width: 600px) {
-      #swipe-toast {
-        bottom: 60px;
-        font-size: 0.85em;
-        padding: 6px 12px;
-      }
-    }
+
 
 
     /* Footer */
@@ -1115,6 +1088,39 @@
       setInterval(evidenziaOrario, 60000);
 
 
+      // Variabile globale per tracciare la sezione visibile corrente
+      var visibleSection = -1; // -1 indica nessuna sezione visibile
+
+      // AGGIUNGI QUI l'Intersection Observer per il rilevamento delle sezioni visibili
+      // Crea l'observer per rilevare quando le sezioni sono visibili al 60%
+      var sectionObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var dayIds = ['lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato', 'domenica'];
+            var newIndex = dayIds.indexOf(entry.target.id);
+            
+            if (newIndex !== -1 && newIndex !== visibleSection) {
+              visibleSection = newIndex;
+              console.log('Sezione visibile al 70%: ' + entry.target.id + ' (indice: ' + visibleSection + ')');
+            }
+          }
+        });
+      }, {
+        threshold: 0.6, // Trigger quando la sezione è visibile al 70%
+        rootMargin: '0px'
+      });
+
+      // Osserva tutte le sezioni dei giorni
+      var sectionsToObserve = document.querySelectorAll('section[id]');
+      sectionsToObserve.forEach(function(section) {
+        // Osserva solo le sezioni dei giorni (esclude eventuali altre sezioni)
+        var dayIds = ['lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato', 'domenica'];
+        if (dayIds.includes(section.id)) {
+          sectionObserver.observe(section);
+        }
+      });
+
+
 
       // AGGIUNGI QUI la gestione degli swipe
       var touchStartX = 0;
@@ -1123,71 +1129,9 @@
       
       // Array dei giorni della settimana
       var giorniArray = [
-        "lunedi",
-        "martedi",
-        "mercoledi",
-        "giovedi",
-        "venerdi",
-        "sabato",
-        "domenica"
+        "lunedi", "martedi", "mercoledi", "giovedi", 
+        "venerdi", "sabato", "domenica"
       ];
-      
-      // Funzione per mostrare il toast di swipe
-      function showSwipeToast(message) {
-        var toast = document.getElementById('swipe-toast');
-        toast.textContent = message;
-        toast.classList.add('show');
-        
-        setTimeout(function() {
-          toast.classList.remove('show');
-        }, 2000);
-      }
-      
-      // Funzione per verificare se lo swipe è consentito
-      function isSwipeAllowed() {
-        var now = new Date();
-        var ore = now.getHours();
-        var minuti = now.getMinutes();
-        var timeMin = ore * 60 + minuti;
-        
-        // Verifica se siamo nella fascia notturna (22:31 - 5:29)
-        if (timeMin >= 1351 || timeMin <= 329) {
-          return false; // Fascia notturna, swipe non consentito
-        }
-        
-        return true; // Swipe sempre consentito durante il giorno
-      }
-      
-      // Funzione per ottenere il giorno correntemente visualizzato
-      function getCurrentDay() {
-        // Prima controlla se c'è un elemento evidenziato
-        var highlighted = document.querySelector('.highlight');
-        if (highlighted) {
-          var section = highlighted.closest('section');
-          if (section) {
-            return section.id;
-          }
-        }
-        
-        // Se non c'è evidenziazione, trova la sezione più vicina al centro dello schermo
-        var sections = document.querySelectorAll('section[id]');
-        var centerY = window.innerHeight / 2 + window.scrollY;
-        var closestSection = null;
-        var minDistance = Infinity;
-        
-        sections.forEach(function(section) {
-          var rect = section.getBoundingClientRect();
-          var sectionCenterY = rect.top + window.scrollY + rect.height / 2;
-          var distance = Math.abs(centerY - sectionCenterY);
-          
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestSection = section;
-          }
-        });
-        
-        return closestSection ? closestSection.id : null;
-      }
       
       // Funzione per ottenere la fascia oraria corrente
       function getCurrentFascia() {
@@ -1210,14 +1154,10 @@
         return null;
       }
       
-      // Funzione per navigare a un giorno specifico con animazione
-      function navigateToDay(targetDay, isNext) {
+      // Funzione per navigare a un giorno specifico
+      function navigateToDay(targetDay) {
         var targetSection = document.getElementById(targetDay);
         if (!targetSection) return;
-        
-        // Aggiungi la classe di animazione
-        var animationClass = isNext ? 'slide-left' : 'slide-right';
-        targetSection.classList.add(animationClass);
         
         // Ottieni la fascia oraria corrente
         var currentFascia = getCurrentFascia();
@@ -1235,20 +1175,9 @@
           // Se non c'è fascia oraria, scrolla all'inizio della sezione
           targetSection.scrollIntoView({behavior: "smooth", block: "start"});
         }
-        
-        // Rimuovi la classe di animazione dopo l'animazione
-        setTimeout(function() {
-          targetSection.classList.remove(animationClass);
-        }, 300);
-        
-        // Mostra il toast informativo
-        var message = isNext ? 
-          "> menu del giorno successivo" : 
-          "< menu del giorno precedente";
-        showSwipeToast(message);
       }
       
-      // Event listeners per il touch - MODIFICATO per funzionare su tutta la pagina
+      // Event listeners per il touch
       var isSwipeOnSection = false;
       
       document.addEventListener('touchstart', function(e) {
@@ -1271,47 +1200,37 @@
       });
       
       function handleSwipe() {
-        if (!isSwipeAllowed()) return;
-        
-        var currentDay = getCurrentDay();
-        if (!currentDay) return;
-        
-        var currentIndex = giorniArray.indexOf(currentDay);
-        if (currentIndex === -1) return;
+        // Controlla se la visibleSection è valida
+        if (visibleSection === -1) return;
         
         var swipeDistance = touchEndX - touchStartX;
         
-        // Swipe a destra (vai al giorno successivo) - INVERTITO
+        // Swipe da sinistra a destra (vai al giorno successivo)
         if (swipeDistance > minSwipeDistance) {
-          // Se siamo domenica, non permettere di andare avanti
-          //if (currentDay === 'domenica') return;
-          
           var nextIndex;
-          // Se siamo domenica, il prossimo è lunedi (indice 0)
-          //if (currentDay === 'domenica') {
-          //  nextIndex = 0; // lunedi
-          //} else {
-            nextIndex = currentIndex + 1;
-          //}
+          if (visibleSection === 6) { // Se siamo a domenica (indice 6)
+            nextIndex = 0; // Vai al lunedì (indice 0)
+          } else {
+            nextIndex = visibleSection + 1;
+          }
           var nextDay = giorniArray[nextIndex];
-          navigateToDay(nextDay, true);
+          navigateToDay(nextDay);
         }
-        // Swipe a sinistra (vai al giorno precedente) - INVERTITO
+        // Swipe da destra a sinistra (vai al giorno precedente)
         else if (swipeDistance < -minSwipeDistance) {
-          // Se siamo lunedì, non permettere di andare indietro
-          //if (currentDay === 'lunedi') return;
-          
           var prevIndex;
-          // Se siamo lunedi, il precedente è domenica (indice 6)
-          //if (currentDay === 'lunedi') {
-          //  prevIndex = 6; // domenica
-          //} else {
-            prevIndex = currentIndex - 1;
-          //}
+          if (visibleSection === 0) { // Se siamo a lunedì (indice 0)
+            prevIndex = 6; // Vai alla domenica (indice 6)
+          } else {
+            prevIndex = visibleSection - 1;
+          }
           var prevDay = giorniArray[prevIndex];
-          navigateToDay(prevDay, false);
+          navigateToDay(prevDay);
         }
       }
+
+
+
 
 
 
