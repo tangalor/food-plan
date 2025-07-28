@@ -644,6 +644,38 @@
     
 
 
+    /* Toast per lo swipe */
+    #swipe-toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      z-index: 3000;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      font-weight: 600;
+    }
+    
+    #swipe-toast.show {
+      opacity: 1;
+    }
+    
+    @media (max-width: 600px) {
+      #swipe-toast {
+        bottom: 60px;
+        font-size: 0.85em;
+        padding: 6px 12px;
+      }
+    }
+
+
+
 
     /* Footer */
     .footer {
@@ -1153,6 +1185,30 @@
         }
         return null;
       }
+
+      // Funzione per mostrare il toast di swipe con il nome del giorno
+      function showSwipeToast(dayName) {
+        var toast = document.getElementById('swipe-toast');
+        
+        // Mappa dei nomi dei giorni in italiano
+        var dayNames = {
+          'lunedi': 'Lunedì',
+          'martedi': 'Martedì', 
+          'mercoledi': 'Mercoledì',
+          'giovedi': 'Giovedì',
+          'venerdi': 'Venerdì',
+          'sabato': 'Sabato',
+          'domenica': 'Domenica'
+        };
+        
+        var displayName = dayNames[dayName] || dayName;
+        toast.textContent = displayName;
+        toast.classList.add('show');
+        
+        setTimeout(function() {
+          toast.classList.remove('show');
+        }, 2000);
+      }
       
       // Funzione per navigare a un giorno specifico
       function navigateToDay(targetDay) {
@@ -1175,6 +1231,9 @@
           // Se non c'è fascia oraria, scrolla all'inizio della sezione
           targetSection.scrollIntoView({behavior: "smooth", block: "start"});
         }
+
+        // Mostra il toast con il nome del giorno
+        showSwipeToast(targetDay);
       }
       
       // Event listeners per il touch
