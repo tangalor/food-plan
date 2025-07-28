@@ -1238,8 +1238,8 @@
         
         // Mostra il toast informativo
         var message = isNext ? 
-          "Dai un occhio al menu del giorno successivo" : 
-          "Ecco il menu del giorno precedente";
+          "> menu del giorno successivo" : 
+          "< menu del giorno precedente";
         showSwipeToast(message);
       }
       
@@ -1276,8 +1276,8 @@
         
         var swipeDistance = touchEndX - touchStartX;
         
-        // Swipe a sinistra (vai al giorno successivo) - INVERTITO
-        if (swipeDistance < -minSwipeDistance) {
+        // Swipe a destra (vai al giorno successivo) - INVERTITO
+        if (swipeDistance > minSwipeDistance) {
           // Se siamo domenica, non permettere di andare avanti
           if (currentDay === 'domenica') return;
           
@@ -1291,8 +1291,8 @@
           var nextDay = giorniArray[nextIndex];
           navigateToDay(nextDay, true);
         }
-        // Swipe a destra (vai al giorno precedente) - INVERTITO
-        else if (swipeDistance > minSwipeDistance) {
+        // Swipe a sinistra (vai al giorno precedente) - INVERTITO
+        else if (swipeDistance < -minSwipeDistance) {
           // Se siamo lunedì, non permettere di andare indietro
           if (currentDay === 'lunedi') return;
           
