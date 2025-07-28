@@ -1053,13 +1053,13 @@
         // Nascondi toast
         hideToast();
         var giorni = [
-          "domenica",
           "lunedi",
           "martedi",
           "mercoledi",
           "giovedi",
           "venerdi",
-          "sabato"
+          "sabato",
+          "domenica"
         ];
         var now = new Date();
         var oggi = now.getDay();
@@ -1123,8 +1123,13 @@
       
       // Array dei giorni della settimana
       var giorniArray = [
-        "domenica", "lunedi", "martedi", "mercoledi", 
-        "giovedi", "venerdi", "sabato"
+        "lunedi",
+        "martedi",
+        "mercoledi",
+        "giovedi",
+        "venerdi",
+        "sabato",
+        "domenica"
       ];
       
       // Funzione per mostrare il toast di swipe
@@ -1279,12 +1284,12 @@
         // Swipe a destra (vai al giorno successivo) - INVERTITO
         if (swipeDistance < -minSwipeDistance) {
           // Se siamo domenica, non permettere di andare avanti
-          if (currentDay === 'domenica') return;
+          //if (currentDay === 'domenica') return;
           
           var nextIndex;
-          // Se siamo sabato, il prossimo è domenica (indice 0)
-          if (currentDay === 'sabato') {
-            nextIndex = 0; // domenica
+          // Se siamo domenica, il prossimo è lunedi (indice 0)
+          if (currentDay === 'domenica') {
+            nextIndex = 0; // lunedi
           } else {
             nextIndex = currentIndex + 1;
           }
@@ -1294,12 +1299,12 @@
         // Swipe a sinistra (vai al giorno precedente) - INVERTITO
         else if (swipeDistance > minSwipeDistance) {
           // Se siamo lunedì, non permettere di andare indietro
-          if (currentDay === 'lunedi') return;
+          //if (currentDay === 'lunedi') return;
           
           var prevIndex;
-          // Se siamo domenica, il precedente è sabato (indice 6)
-          if (currentDay === 'domenica') {
-            prevIndex = 6; // sabato
+          // Se siamo lunedi, il precedente è domenica (indice 6)
+          if (currentDay === 'lunedi') {
+            prevIndex = 6; // domenica
           } else {
             prevIndex = currentIndex - 1;
           }
