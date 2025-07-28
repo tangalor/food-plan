@@ -623,6 +623,55 @@
     }
 
 
+    /* Animazioni per lo swipe */
+    .slide-left {
+      animation: slideLeft 0.3s ease-out;
+    }
+    
+    .slide-right {
+      animation: slideRight 0.3s ease-out;
+    }
+    
+    @keyframes slideLeft {
+      0% { transform: translateX(100%); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideRight {
+      0% { transform: translateX(-100%); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+    
+    /* Toast per lo swipe */
+    #swipe-toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      z-index: 3000;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    
+    #swipe-toast.show {
+      opacity: 1;
+    }
+    
+    @media (max-width: 600px) {
+      #swipe-toast {
+        bottom: 60px;
+        font-size: 0.85em;
+        padding: 6px 12px;
+      }
+    }
+
+
     /* Footer */
     .footer {
       text-align: center;
@@ -1067,6 +1116,120 @@
 
 
 
+      // AGGIUNGI QUI la gestione degli swipe
+      var touchStartX = 0;
+      var touchEndX = 0;
+      var minSwipeDistance = 80;
+      
+      // Array dei giorni della settimana
+      var giorniArray = [
+        "domenica", "lunedi", "martedi", "mercoledi", 
+        "giovedi", "venerdi", "sabato"
+      ];
+      
+      // Funzione per mostrare il toast di swipe
+      function showSwipeToast(message) {
+        var toast = document.getElementById('swipe-toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        
+        setTimeout(function() {
+          toast.classList.remove('show');
+        }, 2000);
+      }
+      
+      // Funzione per verificare se lo swipe è consentito
+      function isSwipeAllowed() {
+        var now = new Date();
+        var ore = now.getHours();
+        var minuti = now.getMinutes();
+        var timeMin = ore * 60 + minuti;
+        
+        // Verifica se siamo nella fascia notturna (22:31 - 5:29)
+        if (timeMin >= 1351 || timeMin <= 329) {
+          return false; // Fascia notturna, swipe non consentito
+        }
+        
+        // Verifica se c'è un elemento evidenziato (siamo in una fascia oraria)
+        var highlighted = document.querySelector('.highlight');
+        return highlighted !== null;
+      }
+      
+      // Funzione per ottenere il giorno correntemente visualizzato
+      function getCurrentDay() {
+        var highlighted = document.querySelector('.highlight');
+        if (!highlighted) return null;
+        
+        // Trova la sezione che contiene l'elemento evidenziato
+        var section = highlighted.closest('section');
+        if (section) {
+          return section.id;
+        }
+        return null;
+      }
+      
+      // Funzione per navigare a un giorno specifico con animazione
+      function navigateToDay(targetDay, isNext) {
+        var targetSection = document.getElementById(targetDay);
+        if (!targetSection) return;
+        
+        // Aggiungi la classe di animazione
+        var animationClass = isNext ? 'slide-left' : 'slide-right';
+        targetSection.classList.add(animationClass);
+        
+        // Scrolla alla sezione
+        targetSection.scrollIntoView({behavior: "smooth", block: "start"});
+        
+        // Rimuovi la classe di animazione dopo l'animazione
+        setTimeout(function() {
+          targetSection.classList.remove(animationClass);
+        }, 300);
+        
+        // Mostra il toast informativo
+        var message = isNext ? 
+          "Dai un occhio al menu del giorno successivo" : 
+          "Ecco il menu del giorno precedente";
+        showSwipeToast(message);
+      }
+      
+      // Event listeners per il touch
+      document.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+      });
+      
+      document.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      });
+      
+      function handleSwipe() {
+        if (!isSwipeAllowed()) return;
+        
+        var currentDay = getCurrentDay();
+        if (!currentDay) return;
+        
+        var currentIndex = giorniArray.indexOf(currentDay);
+        if (currentIndex === -1) return;
+        
+        var swipeDistance = touchEndX - touchStartX;
+        
+        // Swipe a destra (vai al giorno precedente)
+        if (swipeDistance > minSwipeDistance) {
+          var prevIndex = currentIndex === 0 ? 6 : currentIndex - 1;
+          var prevDay = giorniArray[prevIndex];
+          navigateToDay(prevDay, false);
+        }
+        // Swipe a sinistra (vai al giorno successivo)
+        else if (swipeDistance < -minSwipeDistance) {
+          var nextIndex = currentIndex === 6 ? 0 : currentIndex + 1;
+          var nextDay = giorniArray[nextIndex];
+          navigateToDay(nextDay, true);
+        }
+      }
+
+
+
+
       // Variabile globale per il livello dell'acqua (0-100)
       var waterLevel = 0;
       var waterIncrement = 100/13; // ~7.69 per ogni click
@@ -1345,6 +1508,9 @@
     <source src="victory.mp3" type="audio/mpeg">
      <!-- <source src="victory.wav" type="audio/wav"> -->
   </audio>
+
+  <!-- Toast per lo swipe -->
+  <div id="swipe-toast"></div>
 
   <!-- Footer -->
   <footer class="footer">
