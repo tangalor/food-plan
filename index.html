@@ -1150,57 +1150,20 @@
           return false; // Fascia notturna, swipe non consentito
         }
         
-        return true; // Swipe sempre consentito durante il giorno
+        // Verifica se c'è un elemento evidenziato (siamo in una fascia oraria)
+        var highlighted = document.querySelector('.highlight');
+        return highlighted !== null;
       }
       
       // Funzione per ottenere il giorno correntemente visualizzato
       function getCurrentDay() {
-        // Prima controlla se c'è un elemento evidenziato
         var highlighted = document.querySelector('.highlight');
-        if (highlighted) {
-          var section = highlighted.closest('section');
-          if (section) {
-            return section.id;
-          }
-        }
+        if (!highlighted) return null;
         
-        // Se non c'è evidenziazione, trova la sezione più vicina al centro dello schermo
-        var sections = document.querySelectorAll('section[id]');
-        var centerY = window.innerHeight / 2 + window.scrollY;
-        var closestSection = null;
-        var minDistance = Infinity;
-        
-        sections.forEach(function(section) {
-          var rect = section.getBoundingClientRect();
-          var sectionCenterY = rect.top + window.scrollY + rect.height / 2;
-          var distance = Math.abs(centerY - sectionCenterY);
-          
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestSection = section;
-          }
-        });
-        
-        return closestSection ? closestSection.id : null;
-      }
-      
-      // Funzione per ottenere la fascia oraria corrente
-      function getCurrentFascia() {
-        var now = new Date();
-        var ore = now.getHours();
-        var minuti = now.getMinutes();
-        var timeMin = ore * 60 + minuti;
-        
-        if (timeMin >= 330 && timeMin <= 600) { // 5:30 - 10:00
-          return 'colazione';
-        } else if (timeMin >= 601 && timeMin <= 720) { // 10:01 - 12:00
-          return 'spuntinomattina';
-        } else if (timeMin >= 721 && timeMin <= 870) { // 12:01 - 14:30
-          return 'pranzo';
-        } else if (timeMin >= 871 && timeMin <= 1050) { // 14:31 - 17:30
-          return 'spuntinopomeriggio';
-        } else if (timeMin >= 1051 && timeMin <= 1350) { // 17:31 - 22:30
-          return 'cena';
+        // Trova la sezione che contiene l'elemento evidenziato
+        var section = highlighted.closest('section');
+        if (section) {
+          return section.id;
         }
         return null;
       }
@@ -1214,22 +1177,8 @@
         var animationClass = isNext ? 'slide-left' : 'slide-right';
         targetSection.classList.add(animationClass);
         
-        // Ottieni la fascia oraria corrente
-        var currentFascia = getCurrentFascia();
-        
-        if (currentFascia) {
-          // Se c'è una fascia oraria, scrolla a quella specifica del nuovo giorno
-          var targetElement = document.getElementById(targetDay + '-' + currentFascia);
-          if (targetElement) {
-            targetElement.scrollIntoView({behavior: "smooth", block: "center"});
-          } else {
-            // Se non esiste quella fascia per quel giorno, scrolla all'inizio della sezione
-            targetSection.scrollIntoView({behavior: "smooth", block: "start"});
-          }
-        } else {
-          // Se non c'è fascia oraria, scrolla all'inizio della sezione
-          targetSection.scrollIntoView({behavior: "smooth", block: "start"});
-        }
+        // Scrolla alla sezione
+        targetSection.scrollIntoView({behavior: "smooth", block: "start"});
         
         // Rimuovi la classe di animazione dopo l'animazione
         setTimeout(function() {
@@ -1238,32 +1187,45 @@
         
         // Mostra il toast informativo
         var message = isNext ? 
-          "> menu del giorno successivo" : 
-          "< menu del giorno precedente";
+          "Dai un occhio al menu del giorno successivo" : 
+          "Ecco il menu del giorno precedente";
         showSwipeToast(message);
       }
       
-      // Event listeners per il touch - MODIFICATO per funzionare su tutta la pagina
-      var isSwipeOnSection = false;
-      
+      // Event listeners per il touch
       document.addEventListener('touchstart', function(e) {
-        // Controlla se il touch è su una sezione di giorno
-        var target = e.target.closest('section[id]');
-        if (target && giorniArray.includes(target.id)) {
-          isSwipeOnSection = true;
-          touchStartX = e.changedTouches[0].screenX;
-        } else {
-          isSwipeOnSection = false;
-        }
+        touchStartX = e.changedTouches[0].screenX;
       });
       
       document.addEventListener('touchend', function(e) {
-        if (isSwipeOnSection) {
-          touchEndX = e.changedTouches[0].screenX;
-          handleSwipe();
-        }
-        isSwipeOnSection = false;
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
       });
+      
+      function handleSwipe() {
+        if (!isSwipeAllowed()) return;
+        
+        var currentDay = getCurrentDay();
+        if (!currentDay) return;
+        
+        var currentIndex = giorniArray.indexOf(currentDay);
+        if (currentIndex === -1) return;
+        
+        var swipeDistance = touchEndX - touchStartX;
+        
+        // Swipe a destra (vai al giorno precedente)
+        if (swipeDistance < -minSwipeDistance) {
+          var prevIndex = currentIndex === 0 ? 6 : currentIndex - 1;
+          var prevDay = giorniArray[prevIndex];
+          navigateToDay(prevDay, false);
+        }
+        // Swipe a sinistra (vai al giorno successivo)
+        else if (swipeDistance > minSwipeDistance) {
+          var nextIndex = currentIndex === 6 ? 0 : currentIndex + 1;
+          var nextDay = giorniArray[nextIndex];
+          navigateToDay(nextDay, true);
+        }
+      }
 
 
 
