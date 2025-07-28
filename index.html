@@ -385,6 +385,7 @@
       align-items: center;
       gap: 8px;
       z-index: 1000;
+      display: none;
     }
 
     .water-percentage {
@@ -465,6 +466,7 @@
         bottom: 10px;
         left: 10px;
         gap: 6px;
+        display: none;
       }
       .water-percentage {
         top: 33px;
@@ -620,6 +622,38 @@
       }
     }
 
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin: 3em auto 2em auto;
+      font-size: 0.85em;
+      color: #888;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3em;
+    }
+    
+    .heart-icon {
+      color: #e74c3c;
+      font-size: 1.1em;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    @media (max-width: 600px) {
+      .footer {
+        font-size: 0.8em;
+        margin: 2em auto 1.5em auto;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -648,7 +682,7 @@
   <section id="lunedi">
     <h1>Lunedì</h1>
     <h2 id="lunedi-colazione">Colazione</h2>
-    <p id="lunedi-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra:</strong></p>
+    <p id="lunedi-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra</strong></p>
     <ul class="menu-elenco">
       <li>2 pancakes proteici Milkpro</li>
       <li>3 Formelle Weetabix</li>
@@ -667,8 +701,9 @@
     <h2 id="lunedi-spuntinopomeriggio">Spuntino Pomeriggio</h2>
     <p id="lunedi-spuntinopomeriggio-par">1 toast (2 fette pane in cassetta integrale) con 2-3 fette di affettato magro (tacchino, pollo, bresaola)</p>
     <h2 id="lunedi-cena">Cena</h2>
-    <p id="lunedi-cena-par">Carne bianca (petto di pollo/tacchino) circa 2 fettine + 100g di pane integrale (circa 2 panini piccoli o 4 fette di pane in cassetta) <strong>oppure</strong></p>
-    <ul class="menu-elenco">
+    <p id="lunedi-cena-par">Carne bianca (petto di pollo/tacchino) circa 2 fettine <strong></strong>+ uno a scelta tra</strong></p>
+    <ul class="menu-elenco"></ul>
+      <li>100g di pane integrale (circa 2 panini piccoli o 4 fette di pane in cassetta)</li>
       <li>2 pacchetti di crackers</li>
       <li>7 gallette</li>
       <li>90g di focaccia (circa 3 focaccine esselunga)</li>
@@ -681,7 +716,7 @@
   <section id="martedi">
     <h1>Martedì</h1>
     <h2 id="martedi-colazione">Colazione</h2>
-    <p id="martedi-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra:</strong></p>
+    <p id="martedi-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra</strong></p>
     <ul class="menu-elenco">
       <li>2 pancakes proteici Milkpro</li>
       <li>3 Formelle Weetabix</li>
@@ -719,7 +754,7 @@
   <section id="mercoledi">
     <h1>Mercoledì</h1>
     <h2 id="mercoledi-colazione">Colazione</h2>
-    <p id="mercoledi-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra:</strong></p>
+    <p id="mercoledi-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra</strong></p>
     <ul class="menu-elenco">
       <li>2 pancakes proteici Milkpro</li>
       <li>3 Formelle Weetabix</li>
@@ -743,8 +778,9 @@
     <h2 id="mercoledi-spuntinopomeriggio">Spuntino Pomeriggio</h2>
     <p id="mercoledi-spuntinopomeriggio-par">1 toast (2 fette pane in cassetta integrale) con 2-3 fette di affettato magro (tacchino, pollo, bresaola)</p>
     <h2 id="mercoledi-cena">Cena</h2>
-    <p id="mercoledi-cena-par">Legumi a scelta + 100g di pane integrale (circa 2 panini piccoli o 4 fette di pane in cassetta) <strong>oppure</strong></p>
-    <ul class="menu-elenco">
+    <p id="mercoledi-cena-par">Legumi a scelta  <strong>+ uno a scelta tra</strong></p>
+    <ul class="menu-elenco"></ul>
+      <li>+ 100g di pane integrale (circa 2 panini piccoli o 4 fette di pane in cassetta)</li> 
       <li>2 pacchetti di crackers</li>
       <li>7 gallette</li>
       <li>90g di focaccia (circa 3 focaccine esselunga)</li>
@@ -757,7 +793,7 @@
   <section id="giovedi">
     <h1>Giovedì</h1>
     <h2 id="giovedi-colazione">Colazione</h2>
-    <p id="giovedi-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra:</strong></p>
+    <p id="giovedi-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra</strong></p>
     <ul class="menu-elenco">
       <li>2 pancakes proteici Milkpro</li>
       <li>3 Formelle Weetabix</li>
@@ -776,8 +812,9 @@
     <h2 id="giovedi-spuntinopomeriggio">Spuntino Pomeriggio</h2>
     <p id="giovedi-spuntinopomeriggio-par">1 toast (2 fette pane in cassetta integrale) con 2-3 fette di affettato magro (tacchino, pollo, bresaola)</p>
     <h2 id="giovedi-cena">Cena</h2>
-    <p id="giovedi-cena-par">1 hamburger di manzo o altra carne rossa magra + 100g di pane integrale (circa 2 panini piccoli o 4 fette di pane in cassetta) <strong>oppure</strong></p>
+    <p id="giovedi-cena-par">1 hamburger di manzo o altra carne rossa magra <strong>+ uno a scelta tra</strong></p>
     <ul class="menu-elenco">
+      <li>+ 100g di pane integrale (circa 2 panini piccoli o 4 fette di pane in cassetta) </li>
       <li>2 pacchetti di crackers</li>
       <li>7 gallette</li>
       <li>90g di focaccia (circa 3 focaccine esselunga)</li>
@@ -790,7 +827,7 @@
   <section id="venerdi">
     <h1>Venerdì</h1>
     <h2 id="venerdi-colazione">Colazione</h2>
-    <p id="venerdi-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra:</strong></p>
+    <p id="venerdi-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra</strong></p>
     <ul class="menu-elenco">
       <li>2 pancakes proteici Milkpro</li>
       <li>3 Formelle Weetabix</li>
@@ -828,7 +865,7 @@
   <section id="sabato">
     <h1>Sabato</h1>
     <h2 id="sabato-colazione">Colazione</h2>
-    <p id="sabato-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra:</strong></p>
+    <p id="sabato-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra</strong></p>
     <ul class="menu-elenco">
       <li>2 pancakes proteici Milkpro</li>
       <li>3 Formelle Weetabix</li>
@@ -850,7 +887,7 @@
   <section id="domenica">
     <h1>Domenica</h1>
     <h2 id="domenica-colazione">Colazione</h2>
-    <p id="domenica-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra:</strong></p>
+    <p id="domenica-colazione-par">1 tazza di caffelatte con latte parzialmente scremato <strong>+ uno a scelta tra</strong></p>
     <ul class="menu-elenco">
       <li>2 pancakes proteici Milkpro</li>
       <li>3 Formelle Weetabix</li>
@@ -909,6 +946,24 @@
 
     // Auto-scroll to today section on page load
     window.addEventListener('DOMContentLoaded', function() {
+
+      // Controllo per nascondere waterControls se role=viewer
+      function checkViewerRole() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var role = urlParams.get('role');
+        var waterControls = document.getElementById('waterControls');
+        
+        if (role === 'viewer') { 
+          waterControls.style.display = 'none';
+          console.log('Modalità viewer attivata - controlli acqua nascosti');
+        } else {
+          waterControls.style.display = 'flex';
+          console.log('Modalità normale - controlli acqua visibili');
+        }
+      }
+      // Esegui il controllo all'avvio
+      checkViewerRole();
+
       // Giorni per id sezione
       var giorni = [
         "domenica",
@@ -986,9 +1041,14 @@
         if (fascia) {
           // Evidenzia h2 e relativo paragrafo
           var h2 = document.getElementById(idGiorno + '-' + fascia);
-          var p = document.getElementById(idGiorno + '-' + fascia + '-par');
-          if (h2) h2.classList.add("highlight");
-          if (p) p.classList.add("highlight");
+
+          // Trova tutti gli elementi successivi fino al prossimo h2 o h1
+          var currentElement = h2.nextElementSibling;
+          while (currentElement && currentElement.tagName !== 'H2' && currentElement.tagName !== 'H1') {
+            currentElement.classList.add("highlight");
+            currentElement = currentElement.nextElementSibling;
+          }
+
           // Scrolla il primo elemento evidenziato al centro dello schermo
           setTimeout(function() {
             var evidenziato = document.querySelector('.highlight');
@@ -1285,6 +1345,15 @@
     <source src="victory.mp3" type="audio/mpeg">
      <!-- <source src="victory.wav" type="audio/wav"> -->
   </audio>
+
+  <!-- Footer -->
+  <footer class="footer">
+    Made with 
+    <svg class="heart-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    </svg>
+    and AI
+  </footer>
 
 </body>
 </html>
