@@ -1282,32 +1282,32 @@
         var swipeDistance = touchEndX - touchStartX;
         
         // Swipe a destra (vai al giorno successivo) - INVERTITO
-        if (swipeDistance < -minSwipeDistance) {
+        if (swipeDistance > minSwipeDistance) {
           // Se siamo domenica, non permettere di andare avanti
           //if (currentDay === 'domenica') return;
           
           var nextIndex;
           // Se siamo domenica, il prossimo è lunedi (indice 0)
-          if (currentDay === 'domenica') {
-            nextIndex = 0; // lunedi
-          } else {
+          //if (currentDay === 'domenica') {
+          //  nextIndex = 0; // lunedi
+          //} else {
             nextIndex = currentIndex + 1;
-          }
+          //}
           var nextDay = giorniArray[nextIndex];
           navigateToDay(nextDay, true);
         }
         // Swipe a sinistra (vai al giorno precedente) - INVERTITO
-        else if (swipeDistance > minSwipeDistance) {
+        else if (swipeDistance < -minSwipeDistance) {
           // Se siamo lunedì, non permettere di andare indietro
           //if (currentDay === 'lunedi') return;
           
           var prevIndex;
           // Se siamo lunedi, il precedente è domenica (indice 6)
-          if (currentDay === 'lunedi') {
-            prevIndex = 6; // domenica
-          } else {
+          //if (currentDay === 'lunedi') {
+          //  prevIndex = 6; // domenica
+          //} else {
             prevIndex = currentIndex - 1;
-          }
+          //}
           var prevDay = giorniArray[prevIndex];
           navigateToDay(prevDay, false);
         }
