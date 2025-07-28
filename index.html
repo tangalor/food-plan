@@ -691,9 +691,9 @@
     }
     
     @keyframes heartbeat {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
+      0% { transform: scale(0.8); }
+      50% { transform: scale(1.4); }
+      100% { transform: scale(0.8); }
     }
     
     @media (max-width: 600px) {
@@ -1213,17 +1213,35 @@
         
         var swipeDistance = touchEndX - touchStartX;
         
-        // Swipe a destra (vai al giorno precedente)
+        // Swipe a destra (vai al giorno successivo) - INVERTITO
         if (swipeDistance > minSwipeDistance) {
-          var prevIndex = currentIndex === 0 ? 6 : currentIndex - 1;
-          var prevDay = giorniArray[prevIndex];
-          navigateToDay(prevDay, false);
-        }
-        // Swipe a sinistra (vai al giorno successivo)
-        else if (swipeDistance < -minSwipeDistance) {
+          // Se siamo domenica, non permettere di andare avanti
+          if (currentDay === 'domenica') return;
+          
           var nextIndex = currentIndex === 6 ? 0 : currentIndex + 1;
+          // Se siamo sabato, il prossimo è domenica (indice 0)
+          if (currentDay === 'sabato') {
+            nextIndex = 0; // domenica
+          } else {
+            nextIndex = currentIndex + 1;
+          }
           var nextDay = giorniArray[nextIndex];
           navigateToDay(nextDay, true);
+        }
+        // Swipe a sinistra (vai al giorno precedente) - INVERTITO
+        else if (swipeDistance < -minSwipeDistance) {
+          // Se siamo lunedì, non permettere di andare indietro
+          if (currentDay === 'lunedi') return;
+          
+          var prevIndex;
+          // Se siamo domenica, il precedente è sabato (indice 6)
+          if (currentDay === 'domenica') {
+            prevIndex = 6; // sabato
+          } else {
+            prevIndex = currentIndex - 1;
+          }
+          var prevDay = giorniArray[prevIndex];
+          navigateToDay(prevDay, false);
         }
       }
 
