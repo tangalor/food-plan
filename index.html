@@ -70,6 +70,30 @@
       color: var(--primary-light);
       outline: none;
     }
+
+    /* Personalizzazione colori specifici per Note e Sintesi calorica */
+    .nav a[href="#note"] {
+      background: var(--note-bg);
+      color: var(--note-border);
+      border: 1px solid var(--note-border);
+    }
+
+    .nav a[href="#note"]:hover, .nav a[href="#note"]:focus {
+      background: #d4edff;
+      color: #0d4a73;
+    }
+
+    .nav a[href="#sintesi-calorica"] {
+      background: #fff4e0;
+      color: #ff9800;
+      border: 1px solid #ff9800;
+    }
+
+    .nav a[href="#sintesi-calorica"]:hover, .nav a[href="#sintesi-calorica"]:focus {
+      background: #ffecb3;
+      color: #f57500;
+    }
+
     section {
       margin-bottom: 2em;
       background: var(--section-bg);
@@ -641,8 +665,6 @@
       0% { transform: translateX(-100%); opacity: 0; }
       100% { transform: translateX(0); opacity: 1; }
     }
-    
-
 
     /* Toast per lo swipe */
     #swipe-toast {
@@ -675,6 +697,93 @@
     }
 
 
+    /* Sintesi calorica box stile arancione */
+    .sintesi-calorica {
+      margin: 2.5em auto 1em auto;
+      background: #fff4e0;
+      padding: 1em 1.2em;
+      border-radius: 8px;
+      border-left: 4px solid #ff9800;
+      max-width: 700px;
+      font-size: 1em;
+      color: #a65c00;
+      box-shadow: 0 2px 8px #ffe0b266;
+    }
+    .sintesi-calorica strong {
+      color: #ff9800;
+    }
+    @media (max-width: 900px) {
+      .sintesi-calorica {
+        max-width: 98vw;
+        padding-left: 3vw;
+        padding-right: 3vw;
+      }
+    }
+    @media (max-width: 600px) {
+      .sintesi-calorica {
+        padding: 1em 0.8em;
+        border-radius: 7px;
+        max-width: 100vw;
+      }
+    }
+
+    /* Stili per la sezione espandibile */
+    .expandable-section {
+      border-top: 1px solid #ffcc80;
+      padding-top: 1em;
+    }
+
+    .expand-toggle {
+      background: none;
+      border: none;
+      color: #ff9800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      font-size: 0.95em;
+      font-weight: 600;
+      padding: 0.5em 0;
+      transition: color 0.2s;
+    }
+
+    .expand-toggle:hover {
+      color: #f57500;
+    }
+
+    .toggle-arrow {
+      transition: transform 0.2s ease;
+    }
+
+    .expand-toggle[aria-expanded="true"] .toggle-arrow {
+      transform: rotate(180deg);
+    }
+
+    .details-content {
+      margin-top: 0.5em;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        max-height: 0;
+      }
+      to {
+        opacity: 1;
+        max-height: 1000px;
+      }
+    }
+
+    .details-content h4 {
+      margin-top: 1.2em;
+      margin-bottom: 0.6em;
+      font-size: 1.1em;
+    }
+
+    .details-content h4:first-child {
+      margin-top: 0;
+    }
 
 
     /* Footer */
@@ -731,6 +840,7 @@
     <a href="#sabato">Sabato</a>
     <a href="#domenica">Domenica</a>
     <a href="#note">Note</a>
+    <a href="#sintesi-calorica">Sintesi calorica</a>
   </nav>
 
   <section id="lunedi">
@@ -976,6 +1086,124 @@
     </ul>
   </div>
 
+  <div class="sintesi-calorica" id="sintesi-calorica">
+    <strong>Sintesi calorica</strong>
+    <div style="margin-top:0.7em;">
+      Il totale settimanale: <strong>10.738 kcal</strong><br>
+      Media giornaliera:<strong>~1.534 kcal</strong> <br><br>
+      I pasti liberi (sabato cena, domenica pranzo) sono stimati a 800-900 kcal, ma possono variare molto.<br><br>
+      Se scegli sempre le opzioni più caloriche (crackers/focaccia/patate vs. pane, biscotti rispetto a pancake, ecc.) il totale può salire di 100-200 kcal/giorno.<br>
+      I condimenti, salse, variazioni personali possono cambiare molto l’apporto calorico.
+    </div>
+
+    <!-- Sezione espandibile -->
+    <div class="expandable-section" style="margin-top: 1.5em;">
+      <button class="expand-toggle" onclick="toggleDetails()" aria-expanded="false">
+        <span class="toggle-text">Mostra calcoli dettagliati</span>
+        <svg class="toggle-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6,9 12,15 18,9"></polyline>
+        </svg>
+      </button>
+      
+      <div class="details-content" id="detailsContent" style="display: none;">
+        <div style="margin-top: 1em; padding-top: 1em; border-top: 1px solid #ffcc80;">
+          
+          <h4 style="color: #ff9800; margin-bottom: 0.5em;">Kcal per ogni alimento</h4>
+          <div style="font-size: 0.9em; line-height: 1.4; margin-bottom: 1em;">
+            Latte parzialmente scremato: 200ml ≈ 90 kcal<br>
+            Caffè latte: 200ml latte + caffè (trascurabile)<br>
+            Pancake proteico Milkpro: 1 ≈ 80 kcal → 2 ≈ 160 kcal<br>
+            Formella Weetabix: 1 ≈ 65 kcal → 3 ≈ 195 kcal<br>
+            Cereali: 1 manciata ≈ 20g ≈ 75 kcal → 2.5 manciate ≈ 188 kcal<br>
+            Biscotto classico: 1 ≈ 40 kcal → 5 ≈ 200 kcal<br>
+            Fette biscottate integrali: 1 ≈ 35 kcal → 5 ≈ 175 kcal<br>
+            Frutto grande ≈ 80 kcal / 2 piccoli ≈ 40 kcal ciascuno<br>
+            Yogurt greco 0%: ≈ 60 kcal<br>
+            Barretta Special K: ≈ 90 kcal<br>
+            Bustina frutta secca 25g: ≈ 150 kcal<br>
+            Galletta riso: 1 ≈ 35 kcal (7 ≈ 245 kcal, 3.5 ≈ 123 kcal)<br>
+            Toast: pane in cassetta integrale 2 fette ≈ 120 kcal + affettato magro ≈ 60 kcal<br>
+            Pasta 150g pesata cruda ≈ 530 kcal<br>
+            Riso/orzo/farro/couscous integrali 150g ≈ 530 kcal<br>
+            Olio/parmigiano/sugo (2 cucchiai): ≈ 80 kcal<br>
+            Verdure: trascurabili<br>
+            Pane integrale 100g ≈ 230 kcal, 50g ≈ 115 kcal<br>
+            Crackers 1 pacchetto ≈ 35g ≈ 150 kcal → 2 ≈ 300 kcal<br>
+            Focaccia 90g ≈ 280 kcal<br>
+            Patate medie (1 ≈ 150g): 3 ≈ 315 kcal<br>
+            Carne bianca 2 fettine ≈ 120g ≈ 130 kcal<br>
+            Hamburger manzo ≈ 180 kcal<br>
+            Uova 3 ≈ 210 kcal<br>
+            Legumi cotti ≈ 200g ≈ 180 kcal<br>
+            Tonno naturale 2 scatolette ≈ 160 kcal<br>
+            Salmone affumicato 100g ≈ 180 kcal<br>
+            Pesce a scelta ≈ 160 kcal
+          </div>
+
+          <h4 style="color: #ff9800; margin-bottom: 0.5em;">Calcolo kcal giornaliere</h4>
+          <div style="font-size: 0.9em; line-height: 1.4;">
+            <strong>Lunedì</strong><br>
+            Colazione: caffelatte (90) + biscotti (200) = 290<br>
+            Spuntino mattina: frutto grande = 80<br>
+            Pranzo: pasta (530) + olio (80) = 610<br>
+            Spuntino pomeriggio: toast (180)<br>
+            Cena: carne bianca (130) + pane 100g (230) = 360<br>
+            <strong>Totale: 1.520 kcal</strong><br><br>
+
+            <strong>Martedì</strong><br>
+            Colazione: caffelatte (90) + fette biscottate (175) = 265<br>
+            Spuntino mattina: frutta secca (150)<br>
+            Pranzo: pasta (530) + olio (80) = 610<br>
+            Spuntino pomeriggio: toast (180)<br>
+            Cena: 3 uova (210) + pane 100g (230) = 440<br>
+            <strong>Totale: 1.645 kcal</strong><br><br>
+
+            <strong>Mercoledì</strong><br>
+            Colazione: caffelatte (90) + pancakes (160) = 250<br>
+            Spuntino mattina: frutto grande (80)<br>
+            Pranzo: pasta (530) + olio (80) = 610<br>
+            Spuntino pomeriggio: toast (180)<br>
+            Cena: legumi (180) + pane 100g (230) = 410<br>
+            <strong>Totale: 1.530 kcal</strong><br><br>
+
+            <strong>Giovedì</strong><br>
+            Colazione: caffelatte (90) + cereali (188) = 278<br>
+            Spuntino mattina: frutto grande (80)<br>
+            Pranzo: pasta (530) + olio (80) = 610<br>
+            Spuntino pomeriggio: toast (180)<br>
+            Cena: hamburger manzo (180) + pane 100g (230) = 410<br>
+            <strong>Totale: 1.558 kcal</strong><br><br>
+
+            <strong>Venerdì</strong><br>
+            Colazione: caffelatte (90) + weetabix (195) = 285<br>
+            Spuntino mattina: yogurt greco (60)<br>
+            Pranzo: pasta (530) + olio (80) = 610<br>
+            Spuntino pomeriggio: toast (180)<br>
+            Cena: carne bianca (130) + pane 100g (230) = 360<br>
+            <strong>Totale: 1.495 kcal</strong><br><br>
+
+            <strong>Sabato</strong><br>
+            Colazione: caffelatte (90) + biscotti (200) = 290<br>
+            Spuntino mattina: 0<br>
+            Pranzo: pasta 100g (355) + olio (40) = 395<br>
+            Spuntino pomeriggio: 0<br>
+            Cena: pasto libero (~800 kcal stimato)<br>
+            <strong>Totale: 1.485 kcal</strong><br><br>
+
+            <strong>Domenica</strong><br>
+            Colazione: caffelatte (90) + pancakes (160) = 250<br>
+            Spuntino mattina: 0<br>
+            Pranzo: pasto libero (~900 kcal stimato)<br>
+            Spuntino pomeriggio: 0<br>
+            Cena: tonno (160) + pane 50g (115) + olio (80) = 355<br>
+            <strong>Totale: 1.505 kcal</strong><br><br>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <button id="toTopBtn" title="Torna su" aria-label="Torna all'inizio della pagina">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
       <path d="M12 19V5" stroke-width="2" stroke-linecap="round"/>
@@ -1095,6 +1323,7 @@
         if (fascia) {
           // Evidenzia h2 e relativo paragrafo
           var h2 = document.getElementById(idGiorno + '-' + fascia);
+          h2.classList.add("highlight");
 
           // Trova tutti gli elementi successivi fino al prossimo h2 o h1
           var currentElement = h2.nextElementSibling;
@@ -1512,6 +1741,9 @@
         console.log('🎉 Congratulazioni! Hai raggiunto il 100% dell\'obiettivo giornaliero di acqua!');
       }
 
+
+
+      
     }); // fine DOMContentLoaded
 
 
@@ -1521,6 +1753,24 @@
         window.location.reload();
       }
     });
+
+    // Funzione per mostrare/nascondere i dettagli calorici
+      function toggleDetails() {
+        var content = document.getElementById('detailsContent');
+        var button = document.querySelector('.expand-toggle');
+        var text = button.querySelector('.toggle-text');
+        var isExpanded = button.getAttribute('aria-expanded') === 'true';
+        
+        if (isExpanded) {
+          content.style.display = 'none';
+          button.setAttribute('aria-expanded', 'false');
+          text.textContent = 'Mostra calcoli dettagliati';
+        } else {
+          content.style.display = 'block';
+          button.setAttribute('aria-expanded', 'true');
+          text.textContent = 'Nascondi calcoli dettagliati';
+        }
+      }
 
 
     
