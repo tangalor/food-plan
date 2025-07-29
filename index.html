@@ -1028,7 +1028,7 @@
         "sabato",
         "domenica"
       ];
-      var oggi = new Date().getDay(); // 0: domenica ... 6: sabato
+      var oggi = (new Date().getDay())-1; // 0: lunedi ... 6: domenica
       // Scroll only if not already anchored (from hash or reload)
       if (!window.location.hash || window.location.hash === "#top" || window.location.hash === "#") {
         var id = giorni[oggi];
@@ -1067,7 +1067,7 @@
           "domenica"
         ];
         var now = new Date();
-        var oggi = now.getDay();
+        var oggi = (now.getDay())-1;  // 0: lunedi ... 6: domenica
         var ore = now.getHours();
         var minuti = now.getMinutes();
         var idGiorno = giorni[oggi];
@@ -1133,12 +1133,12 @@
             
             if (newIndex !== -1 && newIndex !== visibleSection) {
               visibleSection = newIndex;
-              console.log('Sezione visibile al 70%: ' + entry.target.id + ' (indice: ' + visibleSection + ')');
+              console.log('Sezione visibile al 52%: ' + entry.target.id + ' (indice: ' + visibleSection + ')');
             }
           }
         });
       }, {
-        threshold: 0.6, // Trigger quando la sezione è visibile al 70%
+        threshold: 0.52, // 52% di visibilità per considerare la sezione come visibile
         rootMargin: '0px'
       });
 
