@@ -697,6 +697,28 @@
     }
 
 
+    /* Stile per l'icona della lista della spesa */
+    .shopping-icon {
+      color: #2e7d32;
+      margin-right: 0.3em;
+      flex-shrink: 0;
+    }
+
+    /* Rimuovi il bordo superiore dalla sezione espandibile */
+    .lista-spesa .expandable-section {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    /* Aggiusta lo stile del toggle per includere l'icona */
+    .lista-spesa .expand-toggle {
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      text-align: left;
+    }
+
+
     /* Sintesi calorica box stile arancione */
     .sintesi-calorica {
       margin: 2.5em auto 1em auto;
@@ -786,6 +808,85 @@
     }
 
 
+    /* Personalizzazione colore per Lista della spesa */
+    .nav a[href="#lista-spesa"] {
+      background: #e8f5e8;
+      color: #2e7d32;
+      border: 1px solid #4caf50;
+    }
+
+    .nav a[href="#lista-spesa"]:hover, .nav a[href="#lista-spesa"]:focus {
+      background: #c8e6c9;
+      color: #1b5e20;
+    }
+
+    /* Lista della spesa box stile verde */
+    .lista-spesa {
+      margin: 2.5em auto 1em auto;
+      background: #e8f5e8;
+      padding: 1em 1.2em;
+      border-radius: 8px;
+      border-left: 4px solid #4caf50;
+      max-width: 700px;
+      font-size: 1em;
+      color: #2e5d2e;
+      box-shadow: 0 2px 8px rgba(76, 175, 80, 0.15);
+    }
+    .lista-spesa strong {
+      color: #2e7d32;
+    }
+    @media (max-width: 900px) {
+      .lista-spesa {
+        max-width: 98vw;
+        padding-left: 3vw;
+        padding-right: 3vw;
+      }
+    }
+    @media (max-width: 600px) {
+      .lista-spesa {
+        padding: 1em 0.8em;
+        border-radius: 7px;
+        max-width: 100vw;
+      }
+    }
+
+    /* Stili per la sezione espandibile verde */
+    .lista-spesa .expandable-section {
+      border-top: 1px solid #81c784;
+      padding-top: 1em;
+    }
+
+    .lista-spesa .expand-toggle {
+      background: none;
+      border: none;
+      color: #2e7d32;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      font-size: 0.95em;
+      font-weight: 600;
+      padding: 0.5em 0;
+      transition: color 0.2s;
+    }
+
+    .lista-spesa .expand-toggle:hover {
+      color: #1b5e20;
+    }
+
+    .lista-spesa .details-content h4 {
+      margin-top: 1.2em;
+      margin-bottom: 0.6em;
+      font-size: 1.1em;
+      color: #2e7d32;
+    }
+
+    .lista-spesa .details-content h4:first-child {
+      margin-top: 0;
+    }
+
+
+
     /* Footer */
     .footer {
       text-align: center;
@@ -817,6 +918,13 @@
       }
     }
 
+
+    /* Rimuovi il bordo superiore solo dalla sezione espandibile della sintesi calorica */
+    .sintesi-calorica .expandable-section {
+      border-top: none;
+      padding-top: 1em;
+    }
+
   </style>
 </head>
 <body>
@@ -841,6 +949,7 @@
     <a href="#domenica">Domenica</a>
     <a href="#note">Note</a>
     <a href="#sintesi-calorica">Sintesi calorica</a>
+    <a href="#lista-spesa">Lista della spesa</a>
   </nav>
 
   <section id="lunedi">
@@ -1199,6 +1308,90 @@
             <strong>Totale: 1.505 kcal</strong><br><br>
 
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lista-spesa" id="lista-spesa">
+    <button class="expand-toggle" onclick="toggleShoppingList()" aria-expanded="false">
+      <svg class="shopping-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="9" cy="21" r="1"/>
+        <circle cx="20" cy="21" r="1"/>
+        <path d="m1 1 4 4 4.68 13.39a2 2 0 0 0 1.92 1.61h9.8"/>
+        <path d="M6 6h15l-1.68 7.39a2 2 0 0 1-1.92 1.61H6"/>
+      </svg>
+      <strong class="toggle-text">Lista della spesa</strong>
+      <svg class="toggle-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6,9 12,15 18,9"></polyline>
+      </svg>
+    </button>
+    
+    <div class="details-content" id="shoppingListContent" style="display: none;">
+      <div style="margin-top: 1em; padding-top: 1em;">
+          
+          <h4>Ortofrutta</h4>
+          <ul>
+            <li><strong>Frutta fresca mista</strong> (banane, pesche, kiwi, albicocche, altra frutta di stagione): 10-12 pezzi (per spuntini colazione)</li>
+            <li><strong>Verdure miste a scelta</strong> (insalata, pomodori, zucchine, carote, spinaci, broccoli, ecc.): quantità abbondante per pranzi e cene</li>
+            <li><strong>Patate medie</strong>: 10-12</li>
+          </ul>
+
+          <h4>Pane, prodotti da forno e cereali</h4>
+          <ul>
+            <li><strong>Pane integrale</strong>: 700 g</li>
+            <li><strong>Pan carré integrale</strong>: 1 confezione</li>
+            <li><strong>Pasta</strong> (integrale o classica): 700 g</li>
+            <li><strong>Riso/orzo/farro/couscous integrali</strong>: 1 confezione mista 500 g</li>
+            <li><strong>Fette biscottate integrali</strong>: 1 confezione</li>
+            <li><strong>Biscotti a scelta</strong>: 1 confezione</li>
+            <li><strong>Cereali per colazione a scelta</strong>: 1 confezione</li>
+            <li><strong>Formelle Weetabix</strong>: 1 confezione</li>
+            <li><strong>Crackers integrali</strong>: 2 confezioni</li>
+            <li><strong>Gallette di riso</strong>: 1 confezione</li>
+            <li><strong>Focaccine</strong> (tipo Esselunga): 1 confezione</li>
+            <li><strong>Barretta Special K</strong>: 2 barrette</li>
+          </ul>
+
+          <h4>Banco frigo/latticini</h4>
+          <ul>
+            <li><strong>Latte parzialmente scremato</strong>: 2 L</li>
+            <li><strong>Yogurt greco 0%</strong>: 2 vasetti</li>
+            <li><strong>Parmigiano grattugiato</strong>: 1 confezione piccola (50 g circa)</li>
+            <li><strong>Pancakes proteici Milkpro</strong>: 1 confezione</li>
+          </ul>
+
+          <h4>Banco carne, pesce e affettati</h4>
+          <ul>
+            <li><strong>Petto di pollo o tacchino</strong>: 300 g</li>
+            <li><strong>Hamburger di manzo o carne rossa magra</strong>: 1 (circa 120 g)</li>
+            <li><strong>Bresaola/tacchino/pollo affettato</strong>: 1 confezione</li>
+            <li><strong>Uova</strong>: 1 confezione da 6</li>
+            <li><strong>Tonno al naturale</strong>: 2 scatolette piccole</li>
+            <li><strong>Salmone affumicato</strong>: 1 busta</li>
+            <li><strong>Filetto/trancio di pesce a scelta</strong>: 1 porzione</li>
+          </ul>
+
+          <h4>Scaffale (dispensa)</h4>
+          <ul>
+            <li><strong>Legumi cotti</strong> (lattina/barattolo): 2-3 barattoli da 400 g</li>
+            <li><strong>Olio extravergine di oliva</strong>: 1 bottiglia piccola</li>
+            <li><strong>Sugo pronto o passata di pomodoro</strong>: 1 bottiglia/barattolo</li>
+            <li><strong>Sale, pepe, spezie varie</strong></li>
+          </ul>
+
+          <h4>Frutta secca, semi e snack</h4>
+          <ul>
+            <li><strong>Frutta secca mista</strong> (mandorle, noci, nocciole): 2 bustine monoporzione da 25 g</li>
+            <li><strong>Semi/granella a scelta</strong>: 1 confezione piccola</li>
+          </ul>
+
+          <h4>Note</h4>
+          <ul>
+            <li>Alcuni prodotti (crackers, gallette, pane, affettati, ecc.) sono alternativi tra loro: puoi variare le quantità a seconda delle tue preferenze.</li>
+            <li>Per i pasti liberi del weekend, scegli tu cosa acquistare in base ai tuoi gusti.</li>
+            <li>Le quantità di frutta e verdura sono abbondanti per garantire varietà e coprire tutti i pasti.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -1769,6 +1962,24 @@
           content.style.display = 'block';
           button.setAttribute('aria-expanded', 'true');
           text.textContent = 'Nascondi calcoli dettagliati';
+        }
+      }
+
+      // Funzione per mostrare/nascondere la lista della spesa
+      function toggleShoppingList() {
+        var content = document.getElementById('shoppingListContent');
+        var button = document.querySelector('.lista-spesa .expand-toggle');
+        var text = button.querySelector('.toggle-text');
+        var isExpanded = button.getAttribute('aria-expanded') === 'true';
+        
+        if (isExpanded) {
+          content.style.display = 'none';
+          button.setAttribute('aria-expanded', 'false');
+          text.textContent = 'Lista della spesa';
+        } else {
+          content.style.display = 'block';
+          button.setAttribute('aria-expanded', 'true');
+          text.textContent = 'Lista della spesa';
         }
       }
 
