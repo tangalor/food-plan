@@ -1340,10 +1340,23 @@
         var svg = document.querySelector('#waterGlass svg');
         var waterPath = svg.querySelector('.water-fill');
         var waterReflection = svg.querySelector('.water-reflection');
+        var emptyBackground = svg.querySelector('.empty-background');
         
-        // Rimuovi elementi acqua esistenti
+        // Rimuovi elementi acqua ed sfondo esistenti
         if (waterPath) waterPath.remove();
         if (waterReflection) waterReflection.remove();
+        if (emptyBackground) emptyBackground.remove();
+        
+        // Crea sempre lo sfondo grigio per la parte vuota del bicchiere
+        var emptyBgElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        emptyBgElement.setAttribute('class', 'empty-background');
+        emptyBgElement.setAttribute('d', 'M19.2 24 L100.8 24 L96 156 L24 156 Z');
+        emptyBgElement.setAttribute('fill', '#f5f5f5');
+        emptyBgElement.setAttribute('opacity', '0.8');
+        
+        // Inserisci lo sfondo per primo (dietro tutto)
+        var firstChild = svg.firstChild;
+        svg.insertBefore(emptyBgElement, firstChild);
         
         if (level > 0) {
           // Calcola la posizione Y dell'acqua basata sulla percentuale
@@ -1366,9 +1379,10 @@
           waterPathElement.setAttribute('class', 'water-fill');
           waterPathElement.setAttribute('d', 'M' + leftTop + ' ' + waterTop + ' L' + rightTop + ' ' + waterTop + ' L' + rightBottom + ' 156 L' + leftBottom + ' 156 Z');
           waterPathElement.setAttribute('fill', '#87ceeb');
-          waterPathElement.setAttribute('opacity', '0.7');
+          waterPathElement.setAttribute('opacity', '0.9');
           
           // Crea il riflesso
+          /*
           var reflectionElement = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
           reflectionElement.setAttribute('class', 'water-reflection');
           reflectionElement.setAttribute('cx', '48');
@@ -1376,12 +1390,13 @@
           reflectionElement.setAttribute('rx', '19.2');
           reflectionElement.setAttribute('ry', Math.max(3, waterHeight * 0.08));
           reflectionElement.setAttribute('fill', '#b8e0f5');
-          reflectionElement.setAttribute('opacity', '0.6');
+          reflectionElement.setAttribute('opacity', '0.7');
+          */
           
-          // Inserisci gli elementi nell'SVG (dopo il contorno ma prima del bordo superiore)
-          var contour = svg.querySelector('path');
-          svg.insertBefore(waterPathElement, contour.nextSibling);
-          svg.insertBefore(reflectionElement, waterPathElement.nextSibling);
+          // Inserisci gli elementi nell'SVG (dopo lo sfondo ma prima del contorno)
+          var contour = svg.querySelector('path[stroke="#4a90e2"]');
+          svg.insertBefore(waterPathElement, contour);
+          svg.insertBefore(reflectionElement, contour);
         }
       }
 
