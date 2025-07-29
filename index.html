@@ -886,6 +886,87 @@
     }
 
 
+    /* Stili per i checkbox personalizzati della lista spesa */
+    .lista-spesa .checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8em;
+      margin-bottom: 0.6em;
+      line-height: 1.4;
+    }
+
+    .lista-spesa .custom-checkbox {
+      position: relative;
+      min-width: 28px;
+      width: 28px;
+      height: 28px;
+      margin-top: 0.1em;
+      cursor: pointer;
+      border: 2px solid #4caf50;
+      border-radius: 6px;
+      background: white;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lista-spesa .custom-checkbox:hover {
+      background: #f1f8e9;
+      transform: scale(1.05);
+    }
+
+    .lista-spesa .custom-checkbox.checked {
+      background: #4caf50;
+      border-color: #4caf50;
+    }
+
+    .lista-spesa .custom-checkbox .check-icon {
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.2s ease;
+      color: white;
+      width: 18px;
+      height: 18px;
+    }
+
+    .lista-spesa .custom-checkbox.checked .check-icon {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .lista-spesa .checkbox-text {
+      flex: 1;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .lista-spesa .checkbox-text.completed {
+      text-decoration: line-through;
+      opacity: 0.6;
+      color: #666;
+    }
+
+    .lista-spesa .checkbox-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.5em 0;
+    }
+
+    /* Media query per schermi più piccoli */
+    @media (max-width: 600px) {
+      .lista-spesa .custom-checkbox {
+        min-width: 32px;
+        width: 32px;
+        height: 32px;
+      }
+      
+      .lista-spesa .checkbox-item {
+        gap: 0.6em;
+      }
+    }
+
+
 
     /* Footer */
     .footer {
@@ -1331,59 +1412,283 @@
       <div style="margin-top: 1em; padding-top: 1em;">
           
           <h4>Ortofrutta</h4>
-          <ul>
-            <li><strong>Frutta fresca mista</strong> (banane, pesche, kiwi, albicocche, altra frutta di stagione): 10-12 pezzi (per spuntini colazione)</li>
-            <li><strong>Verdure miste a scelta</strong> (insalata, pomodori, zucchine, carote, spinaci, broccoli, ecc.): quantità abbondante per pranzi e cene</li>
-            <li><strong>Patate medie</strong>: 10-12</li>
+          <ul class="checkbox-list">
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Frutta fresca mista</strong> (banane, pesche, kiwi, albicocche, altra frutta di stagione): 10-12 pezzi (per spuntini colazione)</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Verdure miste a scelta</strong> (insalata, pomodori, zucchine, carote, spinaci, broccoli, ecc.): quantità abbondante per pranzi e cene</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Patate medie</strong>: 10-12</span>
+            </li>
           </ul>
 
           <h4>Pane, prodotti da forno e cereali</h4>
-          <ul>
-            <li><strong>Pane integrale</strong>: 700 g</li>
-            <li><strong>Pan carré integrale</strong>: 1 confezione</li>
-            <li><strong>Pasta</strong> (integrale o classica): 700 g</li>
-            <li><strong>Riso/orzo/farro/couscous integrali</strong>: 1 confezione mista 500 g</li>
-            <li><strong>Fette biscottate integrali</strong>: 1 confezione</li>
-            <li><strong>Biscotti a scelta</strong>: 1 confezione</li>
-            <li><strong>Cereali per colazione a scelta</strong>: 1 confezione</li>
-            <li><strong>Formelle Weetabix</strong>: 1 confezione</li>
-            <li><strong>Crackers integrali</strong>: 2 confezioni</li>
-            <li><strong>Gallette di riso</strong>: 1 confezione</li>
-            <li><strong>Focaccine</strong> (tipo Esselunga): 1 confezione</li>
-            <li><strong>Barretta Special K</strong>: 2 barrette</li>
+          <ul class="checkbox-list">
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Pane integrale</strong>: 700 g</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Pan carré integrale</strong>: 1 confezione</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Pasta</strong> (integrale o classica): 700 g</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Riso/orzo/farro/couscous integrali</strong>: 1 confezione mista 500 g</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Fette biscottate integrali</strong>: 1 confezione</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Biscotti a scelta</strong>: 1 confezione</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Cereali per colazione a scelta</strong>: 1 confezione</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Formelle Weetabix</strong>: 1 confezione</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Crackers integrali</strong>: 2 confezioni</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Gallette di riso</strong>: 1 confezione</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Focaccine</strong> (tipo Esselunga): 1 confezione</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Barretta Special K</strong>: 2 barrette</span>
+            </li>
           </ul>
 
           <h4>Banco frigo/latticini</h4>
-          <ul>
-            <li><strong>Latte parzialmente scremato</strong>: 2 L</li>
-            <li><strong>Yogurt greco 0%</strong>: 2 vasetti</li>
-            <li><strong>Parmigiano grattugiato</strong>: 1 confezione piccola (50 g circa)</li>
-            <li><strong>Pancakes proteici Milkpro</strong>: 1 confezione</li>
+          <ul class="checkbox-list">
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Latte parzialmente scremato</strong>: 2 L</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Yogurt greco 0%</strong>: 2 vasetti</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Parmigiano grattugiato</strong>: 1 confezione piccola (50 g circa)</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Pancakes proteici Milkpro</strong>: 1 confezione</span>
+            </li>
           </ul>
 
           <h4>Banco carne, pesce e affettati</h4>
-          <ul>
-            <li><strong>Petto di pollo o tacchino</strong>: 300 g</li>
-            <li><strong>Hamburger di manzo o carne rossa magra</strong>: 1 (circa 120 g)</li>
-            <li><strong>Bresaola/tacchino/pollo affettato</strong>: 1 confezione</li>
-            <li><strong>Uova</strong>: 1 confezione da 6</li>
-            <li><strong>Tonno al naturale</strong>: 2 scatolette piccole</li>
-            <li><strong>Salmone affumicato</strong>: 1 busta</li>
-            <li><strong>Filetto/trancio di pesce a scelta</strong>: 1 porzione</li>
+          <ul class="checkbox-list">
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Petto di pollo o tacchino</strong>: 300 g</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Hamburger di manzo o carne rossa magra</strong>: 1 (circa 120 g)</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Bresaola/tacchino/pollo affettato</strong>: 1 confezione</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Uova</strong>: 1 confezione da 6</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Tonno al naturale</strong>: 2 scatolette piccole</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Salmone affumicato</strong>: 1 busta</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Filetto/trancio di pesce a scelta</strong>: 1 porzione</span>
+            </li>
           </ul>
 
           <h4>Scaffale (dispensa)</h4>
-          <ul>
-            <li><strong>Legumi cotti</strong> (lattina/barattolo): 2-3 barattoli da 400 g</li>
-            <li><strong>Olio extravergine di oliva</strong>: 1 bottiglia piccola</li>
-            <li><strong>Sugo pronto o passata di pomodoro</strong>: 1 bottiglia/barattolo</li>
-            <li><strong>Sale, pepe, spezie varie</strong></li>
+          <ul class="checkbox-list">
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Legumi cotti</strong> (lattina/barattolo): 2-3 barattoli da 400 g</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Olio extravergine di oliva</strong>: 1 bottiglia piccola</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Sugo pronto o passata di pomodoro</strong>: 1 bottiglia/barattolo</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Sale, pepe, spezie varie</strong></span>
+            </li>
           </ul>
 
           <h4>Frutta secca, semi e snack</h4>
-          <ul>
-            <li><strong>Frutta secca mista</strong> (mandorle, noci, nocciole): 2 bustine monoporzione da 25 g</li>
-            <li><strong>Semi/granella a scelta</strong>: 1 confezione piccola</li>
+          <ul class="checkbox-list">
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Frutta secca mista</strong> (mandorle, noci, nocciole): 2 bustine monoporzione da 25 g</span>
+            </li>
+            <li class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)">
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>
+              </div>
+              <span class="checkbox-text" onclick="toggleCheckbox(this.previousElementSibling)"><strong>Semi/granella a scelta</strong>: 1 confezione piccola</span>
+            </li>
           </ul>
 
           <h4>Note</h4>
@@ -1980,6 +2285,23 @@
           content.style.display = 'block';
           button.setAttribute('aria-expanded', 'true');
           text.textContent = 'Lista della spesa';
+        }
+      }
+
+
+      // Funzione per gestire il toggle dei checkbox nella lista spesa
+      function toggleCheckbox(checkboxElement) {
+        var textElement = checkboxElement.nextElementSibling;
+        var isChecked = checkboxElement.classList.contains('checked');
+        
+        if (isChecked) {
+          // Deseleziona
+          checkboxElement.classList.remove('checked');
+          textElement.classList.remove('completed');
+        } else {
+          // Seleziona
+          checkboxElement.classList.add('checked');
+          textElement.classList.add('completed');
         }
       }
 
