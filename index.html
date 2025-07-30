@@ -2265,8 +2265,9 @@
       updateWaterGlass(waterLevel);
       updateWaterPercentage(waterLevel);
 
-
-
+      // Carica stati checkbox e fullscreen
+      loadCheckboxStates();
+      loadFullscreenState();
 
        // Funzione per creare i coriandoli
       function createConfetti() {
@@ -2340,10 +2341,19 @@
     }); // fine DOMContentLoaded
 
 
-    // Ricarica la pagina ogni volta che torna in foreground
+    // Ricarica la pagina ogni volta che torna in foreground (SOLO se non in fullscreen)
     document.addEventListener('visibilitychange', function() {
       if (document.visibilityState === 'visible') {
-        window.location.reload();
+        // Controlla se siamo in modalità fullscreen della lista spesa
+        var savedFullscreen = sessionStorage.getItem('shoppingListFullscreen');
+        
+        if (savedFullscreen !== 'true') {
+          // Non siamo in fullscreen, ricarica normalmente
+          window.location.reload();
+        } else {
+          // Siamo in fullscreen, non ricaricare ma logga l'evento
+          console.log('Pagina tornata in foreground ma lista spesa in fullscreen - ricaricamento saltato');
+        }
       }
     });
 
@@ -2389,7 +2399,7 @@
       }
 
 
-      // Funzione per gestire il toggle dei checkbox nella lista spesa
+      // Funzione per gestire il toggle dei checkbox nella lista spesa (aggiornata)
       function toggleCheckbox(checkboxElement) {
         var textElement = checkboxElement.nextElementSibling;
         var isChecked = checkboxElement.classList.contains('checked');
@@ -2402,6 +2412,98 @@
           // Seleziona
           checkboxElement.classList.add('checked');
           textElement.classList.add('completed');
+        }
+        
+        // Salva lo stato dei checkbox
+        saveCheckboxStates();
+      }
+
+      // Funzione per salvare lo stato dei checkbox nel sessionStorage
+      function saveCheckboxStates() {
+        var checkboxes = document.querySelectorAll('.lista-spesa .custom-checkbox');
+        var states = [];
+        
+        checkboxes.forEach(function(checkbox, index) {
+          states[index] = checkbox.classList.contains('checked');
+        });
+        
+        sessionStorage.setItem('shoppingListCheckboxes', JSON.stringify(states));
+        console.log('Stati checkbox salvati:', states);
+      }
+
+      // Funzione per caricare lo stato dei checkbox dal sessionStorage
+      function loadCheckboxStates() {
+        var savedStates = sessionStorage.getItem('shoppingListCheckboxes');
+        
+        if (savedStates) {
+          try {
+            var states = JSON.parse(savedStates);
+            var checkboxes = document.querySelectorAll('.lista-spesa .custom-checkbox');
+            
+            checkboxes.forEach(function(checkbox, index) {
+              if (states[index] === true) {
+                var textElement = checkbox.nextElementSibling;
+                checkbox.classList.add('checked');
+                textElement.classList.add('completed');
+              }
+            });
+            
+            console.log('Stati checkbox caricati:', states);
+          } catch (error) {
+            console.log('Errore nel caricamento degli stati checkbox:', error);
+          }
+        }
+      }
+
+
+      // Funzione per salvare lo stato fullscreen
+      function saveFullscreenState() {
+        sessionStorage.setItem('shoppingListFullscreen', isFullscreen.toString());
+        if (isFullscreen) {
+          sessionStorage.setItem('shoppingListExpanded', 'true');
+        }
+        console.log('Stato fullscreen salvato:', isFullscreen);
+      }
+
+      // Funzione per caricare lo stato fullscreen
+      function loadFullscreenState() {
+        var savedFullscreen = sessionStorage.getItem('shoppingListFullscreen');
+        var savedExpanded = sessionStorage.getItem('shoppingListExpanded');
+        
+        if (savedFullscreen === 'true') {
+          // Ripristina modalità fullscreen
+          var listBox = document.getElementById('lista-spesa');
+          var body = document.body;
+          var fullscreenIcon = document.querySelector('.fullscreen-icon');
+          var minimizeIcon = document.querySelector('.minimize-icon');
+          var fullscreenBtn = document.querySelector('.fullscreen-btn');
+          var content = document.getElementById('shoppingListContent');
+          var button = document.querySelector('.lista-spesa .expand-toggle');
+          
+          // Attiva fullscreen
+          listBox.classList.add('fullscreen');
+          body.classList.add('fullscreen-active');
+          
+          // Forza l'apertura della lista
+          content.style.display = 'block';
+          button.setAttribute('aria-expanded', 'true');
+          
+          // Cambia icone
+          fullscreenIcon.style.display = 'none';
+          minimizeIcon.style.display = 'block';
+          fullscreenBtn.setAttribute('title', 'Esci dalla modalità schermo intero');
+          fullscreenBtn.setAttribute('aria-label', 'Esci dalla modalità schermo intero');
+          
+          isFullscreen = true;
+          console.log('Modalità fullscreen ripristinata');
+          
+        } else if (savedExpanded === 'true') {
+          // Se non era in fullscreen ma era espansa, ripristina solo l'espansione
+          var content = document.getElementById('shoppingListContent');
+          var button = document.querySelector('.lista-spesa .expand-toggle');
+          content.style.display = 'block';
+          button.setAttribute('aria-expanded', 'true');
+          console.log('Lista della spesa ripristinata come espansa');
         }
       }
 
@@ -2439,6 +2541,7 @@
           listBox.scrollTop = 0;
           
           isFullscreen = true;
+          saveFullscreenState(); // Salva lo stato
           console.log('Lista della spesa: modalità fullscreen attivata');
           
         } else {
@@ -2453,12 +2556,38 @@
           fullscreenBtn.setAttribute('aria-label', 'Espandi a schermo intero');
           
           isFullscreen = false;
+          saveFullscreenState(); // Salva lo stato
           console.log('Lista della spesa: modalità fullscreen disattivata');
           
           // Scrolla alla lista nella pagina normale
           setTimeout(function() {
             listBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }, 100);
+        }
+      }
+
+      // Funzione per mostrare/nascondere la lista della spesa (aggiornata)
+      function toggleShoppingList() {
+        // Se siamo in fullscreen, non permettere la chiusura tramite il toggle principale
+        if (isFullscreen) {
+          return;
+        }
+        
+        var content = document.getElementById('shoppingListContent');
+        var button = document.querySelector('.lista-spesa .expand-toggle');
+        var text = button.querySelector('.toggle-text');
+        var isExpanded = button.getAttribute('aria-expanded') === 'true';
+        
+        if (isExpanded) {
+          content.style.display = 'none';
+          button.setAttribute('aria-expanded', 'false');
+          text.textContent = 'Lista della spesa';
+          sessionStorage.removeItem('shoppingListExpanded');
+        } else {
+          content.style.display = 'block';
+          button.setAttribute('aria-expanded', 'true');
+          text.textContent = 'Lista della spesa';
+          sessionStorage.setItem('shoppingListExpanded', 'true');
         }
       }
 
