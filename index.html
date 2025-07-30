@@ -1997,8 +1997,6 @@
         evidenziaOrario(); // Richiama la funzione esistente
       };
 
-      // Variabile per tracciare la visibilità dei controlli acqua
-      var waterControlsVisible = true;
 
       // Pulsante "water toggle" per mostrare/nascondere controlli acqua
       document.getElementById('waterToggleBtn').onclick = function() {
@@ -2027,11 +2025,15 @@
           }
         }
         
+        // Cambia lo stato
         waterControlsVisible = !waterControlsVisible;
         
         // Salva lo stato nel sessionStorage
         sessionStorage.setItem('waterControlsVisible', waterControlsVisible.toString());
       };
+
+      // AGGIUNGI QUESTA VARIABILE QUI:
+      var waterControlsVisible = true; // Default, verrà sovrascritto dal caricamento dello stato
 
       window.addEventListener('scroll', function() {
         var btnTop = document.getElementById('toTopBtn');
@@ -2069,19 +2071,24 @@
           document.body.removeAttribute('data-role');
         }
         
-        // Carica lo stato salvato
-        var savedState = sessionStorage.getItem('waterControlsVisible');
-        if (savedState !== null) {
-          waterControlsVisible = savedState === 'true';
-        }
-        
         if (role === 'viewer') { 
           // In modalità viewer, nascondi sempre i controlli acqua
           waterControls.style.display = 'none';
           waterControlsVisible = false;
           console.log('Modalità viewer attivata - controlli acqua e pulsante toggle nascosti');
         } else {
-          // Se non è viewer, rispetta lo stato salvato
+          // Se non è viewer, rispetta lo stato salvato o usa il default
+          var savedState = sessionStorage.getItem('waterControlsVisible');
+          
+          if (savedState !== null) {
+            // C'è uno stato salvato, usalo
+            waterControlsVisible = savedState === 'true';
+          } else {
+            // Nessuno stato salvato, usa il default (visibile)
+            waterControlsVisible = true;
+          }
+          
+          // Applica lo stato
           if (waterControlsVisible) {
             waterControls.style.display = 'flex';
             console.log('Modalità normale - controlli acqua visibili');
@@ -2090,7 +2097,7 @@
             console.log('Controlli acqua nascosti (stato salvato)');
           }
           
-          // Aggiorna il titolo del pulsante (solo se non in modalità viewer)
+          // Aggiorna il titolo del pulsante
           if (waterControlsVisible) {
             waterToggleBtn.setAttribute('title', 'Nascondi controlli acqua');
             waterToggleBtn.setAttribute('aria-label', 'Nascondi controlli acqua');
