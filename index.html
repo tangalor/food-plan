@@ -285,7 +285,7 @@
     }
     #toTopBtn {
       position: fixed;
-      bottom: 32px;
+      bottom: 32px; /* Base */
       right: 32px;
       width: 56px;
       height: 56px;
@@ -316,27 +316,49 @@
     }
 
         
-    #nowBtn {
-      position: fixed;
-      bottom: 100px; /* Posizionato sopra il pulsante toTopBtn */
-      right: 32px;
-      width: 56px;
-      height: 56px;
-      border: none;
-      border-radius: 50%;
-      background: var(--highlight); /* Stesso giallo dell'highlight */
-      color: #5a5a26; /* Colore scuro per contrasto sul giallo */
-      box-shadow: 0 4px 12px rgba(255, 228, 96, 0.4);
-      cursor: pointer;
-      z-index: 1000;
-      transition: background 0.18s, box-shadow 0.18s, opacity 0.18s, transform 0.18s;
-      opacity: 0.88;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8em;
-      font-weight: bold;
-    }
+  #nowBtn {
+    position: fixed;
+    bottom: 106px; /* 32 + 56 + 18 = 106px */
+    right: 32px;
+    width: 56px;
+    height: 56px;
+    border: none;
+    border-radius: 50%;
+    background: var(--highlight);
+    color: #5a5a26;
+    box-shadow: 0 4px 12px rgba(255, 228, 96, 0.4);
+    cursor: pointer;
+    z-index: 1000;
+    transition: background 0.18s, box-shadow 0.18s, opacity 0.18s, transform 0.18s;
+    opacity: 0.88;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8em;
+    font-weight: bold;
+  }
+
+  #waterToggleBtn {
+    position: fixed;
+    bottom: 180px; /* 106 + 56 + 18 = 180px */
+    right: 32px;
+    width: 56px;
+    height: 56px;
+    border: none;
+    border-radius: 50%;
+    background: #4a90e2;
+    color: white;
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+    cursor: pointer;
+    z-index: 1000;
+    transition: background 0.18s, box-shadow 0.18s, opacity 0.18s, transform 0.18s;
+    opacity: 0.88;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8em;
+    font-weight: bold;
+  }
     
     #nowBtn:hover, #nowBtn:focus {
       background: #ffe066; /* Giallo più intenso al hover */
@@ -358,10 +380,18 @@
     }
     
     @media (max-width: 600px) {
+      #toTopBtn {
+        width: 42px;
+        height: 42px;
+        right: 10px;
+        bottom: 10px; /* Base per mobile */
+        font-size: 1.3em;
+      }
+      
       #nowBtn {
         width: 42px;
         height: 42px;
-        bottom: 60px; /* Proporzionato per mobile */
+        bottom: 67px; /* 10 + 42 + 15 = 67px */
         right: 10px;
         font-size: 1.3em;
       }
@@ -370,6 +400,70 @@
         width: 18px;
         height: 18px;
       }
+    }
+
+    #waterToggleBtn {
+      position: fixed;
+      bottom: 168px; /* Posizionato sopra il pulsante nowBtn */
+      right: 32px;
+      width: 56px;
+      height: 56px;
+      border: none;
+      border-radius: 50%;
+      background: #4a90e2; /* Stesso blu del bordo del bicchiere */
+      color: white;
+      box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+      cursor: pointer;
+      z-index: 1000;
+      transition: background 0.18s, box-shadow 0.18s, opacity 0.18s, transform 0.18s;
+      opacity: 0.88;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+    
+    #waterToggleBtn:hover, #waterToggleBtn:focus {
+      background: #3a7bc8; /* Blu più scuro al hover */
+      box-shadow: 0 8px 24px rgba(74, 144, 226, 0.6);
+      opacity: 1;
+      transform: scale(1.05);
+      outline: none;
+    }
+    
+    #waterToggleBtn svg {
+      display: block;
+      width: 24px;
+      height: 24px;
+    }
+    
+    #waterToggleBtn:focus-visible {
+      outline: 2px solid #4a90e2;
+      outline-offset: 2px;
+    }
+    
+    @media (max-width: 600px) {
+      #waterToggleBtn {
+        width: 42px;
+        height: 42px;
+        bottom: 124px; /* 67 + 42 + 15 = 124px */
+        right: 10px;
+        font-size: 1.3em;
+      }
+      
+      #waterToggleBtn svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+    
+    /* Nascondi elementi quando in fullscreen */
+    body.fullscreen-active #toTopBtn,
+    body.fullscreen-active #nowBtn,
+    body.fullscreen-active #waterToggleBtn,
+    body.fullscreen-active #waterControls {
+      display: none !important;
     }
     
     /* Nascondi elementi quando in fullscreen */
@@ -1116,6 +1210,11 @@
       }
     }
 
+
+    /* Nascondi il pulsante toggle acqua in modalità viewer */
+    body[data-role="viewer"] #waterToggleBtn {
+      display: none !important;
+    }
 
 
     /* Footer */
@@ -1877,10 +1976,14 @@
     </svg>
   </button>
 
+  <button id="waterToggleBtn" title="Mostra/nascondi controlli acqua" aria-label="Mostra o nascondi controlli acqua">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" fill="#87ceeb"/>
+    </svg>
+  </button>
+
   <script>
    
-
-
     // Auto-scroll to today section on page load
     window.addEventListener('DOMContentLoaded', function() {
 
@@ -1894,37 +1997,111 @@
         evidenziaOrario(); // Richiama la funzione esistente
       };
 
+      // Variabile per tracciare la visibilità dei controlli acqua
+      var waterControlsVisible = true;
+
+      // Pulsante "water toggle" per mostrare/nascondere controlli acqua
+      document.getElementById('waterToggleBtn').onclick = function() {
+        var waterControls = document.getElementById('waterControls');
+        var waterToggleBtn = document.getElementById('waterToggleBtn');
+        
+        if (waterControlsVisible) {
+          // Nascondi i controlli acqua
+          waterControls.style.display = 'none';
+          waterToggleBtn.setAttribute('title', 'Mostra controlli acqua');
+          waterToggleBtn.setAttribute('aria-label', 'Mostra controlli acqua');
+          console.log('Controlli acqua nascosti');
+        } else {
+          // Mostra i controlli acqua (ma solo se non siamo in modalità viewer)
+          var urlParams = new URLSearchParams(window.location.search);
+          var role = urlParams.get('role');
+          
+          if (role !== 'viewer') {
+            waterControls.style.display = 'flex';
+            waterToggleBtn.setAttribute('title', 'Nascondi controlli acqua');
+            waterToggleBtn.setAttribute('aria-label', 'Nascondi controlli acqua');
+            console.log('Controlli acqua mostrati');
+          } else {
+            console.log('Modalità viewer attiva - controlli acqua rimangono nascosti');
+            return; // Non cambiare lo stato se siamo in modalità viewer
+          }
+        }
+        
+        waterControlsVisible = !waterControlsVisible;
+        
+        // Salva lo stato nel sessionStorage
+        sessionStorage.setItem('waterControlsVisible', waterControlsVisible.toString());
+      };
+
       window.addEventListener('scroll', function() {
         var btnTop = document.getElementById('toTopBtn');
         var btnNow = document.getElementById('nowBtn');
+        var btnWaterToggle = document.getElementById('waterToggleBtn');
         
         if (window.scrollY > 300) {
           btnTop.style.display = 'flex';
           btnNow.style.display = 'flex';
+          btnWaterToggle.style.display = 'flex';
         } else {
           btnTop.style.display = 'none';
           btnNow.style.display = 'none';
+          btnWaterToggle.style.display = 'none';
         }
       });
 
       // Inizialmente nascosti
       document.getElementById('toTopBtn').style.display = 'none';
       document.getElementById('nowBtn').style.display = 'none';
+      document.getElementById('waterToggleBtn').style.display = 'none';
 
-      // Controllo per nascondere waterControls se role=viewer
+
+      // Controllo per nascondere waterControls se role=viewer (versione finale corretta)
       function checkViewerRole() {
         var urlParams = new URLSearchParams(window.location.search);
         var role = urlParams.get('role');
         var waterControls = document.getElementById('waterControls');
+        var waterToggleBtn = document.getElementById('waterToggleBtn');
+        
+        // Imposta l'attributo data-role per il CSS
+        if (role === 'viewer') {
+          document.body.setAttribute('data-role', 'viewer');
+        } else {
+          document.body.removeAttribute('data-role');
+        }
+        
+        // Carica lo stato salvato
+        var savedState = sessionStorage.getItem('waterControlsVisible');
+        if (savedState !== null) {
+          waterControlsVisible = savedState === 'true';
+        }
         
         if (role === 'viewer') { 
+          // In modalità viewer, nascondi sempre i controlli acqua
           waterControls.style.display = 'none';
-          console.log('Modalità viewer attivata - controlli acqua nascosti');
+          waterControlsVisible = false;
+          console.log('Modalità viewer attivata - controlli acqua e pulsante toggle nascosti');
         } else {
-          waterControls.style.display = 'flex';
-          console.log('Modalità normale - controlli acqua visibili');
+          // Se non è viewer, rispetta lo stato salvato
+          if (waterControlsVisible) {
+            waterControls.style.display = 'flex';
+            console.log('Modalità normale - controlli acqua visibili');
+          } else {
+            waterControls.style.display = 'none';
+            console.log('Controlli acqua nascosti (stato salvato)');
+          }
+          
+          // Aggiorna il titolo del pulsante (solo se non in modalità viewer)
+          if (waterControlsVisible) {
+            waterToggleBtn.setAttribute('title', 'Nascondi controlli acqua');
+            waterToggleBtn.setAttribute('aria-label', 'Nascondi controlli acqua');
+          } else {
+            waterToggleBtn.setAttribute('title', 'Mostra controlli acqua');
+            waterToggleBtn.setAttribute('aria-label', 'Mostra controlli acqua');
+          }
         }
       }
+
+
       // Esegui il controllo all'avvio
       checkViewerRole();
 
