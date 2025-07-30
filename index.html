@@ -314,6 +314,72 @@
       width: 28px;
       height: 28px;
     }
+
+        
+    #nowBtn {
+      position: fixed;
+      bottom: 100px; /* Posizionato sopra il pulsante toTopBtn */
+      right: 32px;
+      width: 56px;
+      height: 56px;
+      border: none;
+      border-radius: 50%;
+      background: var(--highlight); /* Stesso giallo dell'highlight */
+      color: #5a5a26; /* Colore scuro per contrasto sul giallo */
+      box-shadow: 0 4px 12px rgba(255, 228, 96, 0.4);
+      cursor: pointer;
+      z-index: 1000;
+      transition: background 0.18s, box-shadow 0.18s, opacity 0.18s, transform 0.18s;
+      opacity: 0.88;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+    
+    #nowBtn:hover, #nowBtn:focus {
+      background: #ffe066; /* Giallo più intenso al hover */
+      box-shadow: 0 8px 24px rgba(255, 228, 96, 0.6);
+      opacity: 1;
+      transform: scale(1.05);
+      outline: none;
+    }
+    
+    #nowBtn svg {
+      display: block;
+      width: 24px;
+      height: 24px;
+    }
+    
+    #nowBtn:focus-visible {
+      outline: 2px solid #f6c700;
+      outline-offset: 2px;
+    }
+    
+    @media (max-width: 600px) {
+      #nowBtn {
+        width: 42px;
+        height: 42px;
+        bottom: 60px; /* Proporzionato per mobile */
+        right: 10px;
+        font-size: 1.3em;
+      }
+      
+      #nowBtn svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+    
+    /* Nascondi elementi quando in fullscreen */
+    body.fullscreen-active #toTopBtn,
+    body.fullscreen-active #nowBtn,
+    body.fullscreen-active #waterControls {
+      display: none !important;
+    }
+
+
     @media (max-width: 900px) {
       section, .note {
         max-width: 98vw;
@@ -1804,23 +1870,46 @@
     </svg>
   </button>
 
+  <button id="nowBtn" title="Vai al pasto corrente" aria-label="Vai al pasto corrente evidenziato">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12,6 12,12 16,14"/>
+    </svg>
+  </button>
+
   <script>
-    // Pulsante scroll to top
-    document.getElementById('toTopBtn').onclick = function() {
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    };
-    window.addEventListener('scroll', function() {
-      var btn = document.getElementById('toTopBtn');
-      if (window.scrollY > 300) {
-        btn.style.display = 'flex';
-      } else {
-        btn.style.display = 'none';
-      }
-    });
-    document.getElementById('toTopBtn').style.display = 'none';
+   
+
 
     // Auto-scroll to today section on page load
     window.addEventListener('DOMContentLoaded', function() {
+
+      // Pulsante scroll to top
+      document.getElementById('toTopBtn').onclick = function() {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+      };
+
+      // Pulsante "now" per andare al pasto corrente
+      document.getElementById('nowBtn').onclick = function() {
+        evidenziaOrario(); // Richiama la funzione esistente
+      };
+
+      window.addEventListener('scroll', function() {
+        var btnTop = document.getElementById('toTopBtn');
+        var btnNow = document.getElementById('nowBtn');
+        
+        if (window.scrollY > 300) {
+          btnTop.style.display = 'flex';
+          btnNow.style.display = 'flex';
+        } else {
+          btnTop.style.display = 'none';
+          btnNow.style.display = 'none';
+        }
+      });
+
+      // Inizialmente nascosti
+      document.getElementById('toTopBtn').style.display = 'none';
+      document.getElementById('nowBtn').style.display = 'none';
 
       // Controllo per nascondere waterControls se role=viewer
       function checkViewerRole() {
@@ -2269,6 +2358,40 @@
       loadCheckboxStates();
       loadFullscreenState();
 
+      // Auto-scroll to today section on page load - MODIFICATO
+      var savedFullscreen = sessionStorage.getItem('shoppingListFullscreen');
+      var savedExpanded = sessionStorage.getItem('shoppingListExpanded');
+      
+      // Solo se NON siamo in fullscreen E la lista NON è aperta, naviga al giorno corrente
+      if (savedFullscreen !== 'true' && savedExpanded !== 'true') {
+        var giorni = [
+          "lunedi",
+          "martedi", 
+          "mercoledi",
+          "giovedi",
+          "venerdi",
+          "sabato",
+          "domenica"
+        ];
+        var oggi = (new Date().getDay())-1; // 0: lunedi ... 6: domenica
+        
+        // Scroll only if not already anchored (from hash or reload)
+        if (!window.location.hash || window.location.hash === "#top" || window.location.hash === "#") {
+          var id = giorni[oggi];
+          var section = document.getElementById(id);
+          if (section) {
+            section.scrollIntoView({behavior: "smooth", block: "start"});
+            
+            // Evidenzia la fascia oraria dopo lo scroll
+            setTimeout(function() {
+              evidenziaOrario();
+            }, 800);
+          }
+        }
+      }
+      // Se la lista è aperta ma non in fullscreen, lo scroll alla lista 
+      // viene già gestito da loadFullscreenState()
+
        // Funzione per creare i coriandoli
       function createConfetti() {
         var container = document.getElementById('confettiContainer');
@@ -2341,15 +2464,32 @@
     }); // fine DOMContentLoaded
 
 
-    // Ricarica la pagina ogni volta che torna in foreground (SOLO se non in fullscreen)
+    // Ricarica la pagina ogni volta che torna in foreground (AGGIORNATO)
     document.addEventListener('visibilitychange', function() {
       if (document.visibilityState === 'visible') {
         // Controlla se siamo in modalità fullscreen della lista spesa
         var savedFullscreen = sessionStorage.getItem('shoppingListFullscreen');
+        var savedExpanded = sessionStorage.getItem('shoppingListExpanded');
         
         if (savedFullscreen !== 'true') {
-          // Non siamo in fullscreen, ricarica normalmente
-          window.location.reload();
+          // Non siamo in fullscreen della lista spesa
+          
+          if (savedExpanded === 'true') {
+            // Lista della spesa è aperta in pagina normale → scrolla all'inizio della lista
+            console.log('Lista della spesa aperta - scroll all\'inizio della lista');
+            setTimeout(function() {
+              var listBox = document.getElementById('lista-spesa');
+              if (listBox) {
+                listBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }, 100);
+            
+          } else {
+            // Lista della spesa è chiusa → ricarica normalmente (andrà al giorno corrente)
+            console.log('Lista della spesa chiusa - ricaricamento normale');
+            window.location.reload();
+          }
+          
         } else {
           // Siamo in fullscreen, non ricaricare ma logga l'evento
           console.log('Pagina tornata in foreground ma lista spesa in fullscreen - ricaricamento saltato');
@@ -2504,6 +2644,14 @@
           content.style.display = 'block';
           button.setAttribute('aria-expanded', 'true');
           console.log('Lista della spesa ripristinata come espansa');
+
+          console.log('Lista della spesa aperta - scroll all\'inizio della lista');
+          setTimeout(function() {
+            var listBox = document.getElementById('lista-spesa');
+            if (listBox) {
+              listBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 100);
         }
       }
 
@@ -2560,9 +2708,9 @@
           console.log('Lista della spesa: modalità fullscreen disattivata');
           
           // Scrolla alla lista nella pagina normale
-          setTimeout(function() {
-            listBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 100);
+          //setTimeout(function() {
+          //  listBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          //}, 100);
         }
       }
 
