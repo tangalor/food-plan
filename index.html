@@ -2203,6 +2203,13 @@
             var evidenziato = document.querySelector('.highlight');
             if (evidenziato) {
               evidenziato.scrollIntoView({behavior: "smooth", block: "center"});
+
+              var elementTop = evidenziato.getBoundingClientRect().top + window.pageYOffset;
+              var offsetTop = elementTop - 80; // 80px dall'alto
+              window.scrollTo({
+                top: offsetTop,
+                behavior: "smooth"
+              });
             }
           }, 120); // Timeout breve per assicurare che l'highlight sia applicato
         } else {
