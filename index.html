@@ -2123,6 +2123,10 @@
         "domenica"
       ];
       var oggi = (new Date().getDay())-1; // 0: lunedi ... 6: domenica
+      if(oggi == -1) {
+        oggi = 6; // Se oggi è domenica, impostalo a 6 per il calcolo corretto
+      }
+
       // Scroll only if not already anchored (from hash or reload)
       if (!window.location.hash || window.location.hash === "#top" || window.location.hash === "#") {
         var id = giorni[oggi];
@@ -2162,6 +2166,9 @@
         ];
         var now = new Date();
         var oggi = (now.getDay())-1;  // 0: lunedi ... 6: domenica
+        if(oggi == -1) {
+          oggi = 6; // Se oggi è domenica, impostalo a 6 per il calcolo corretto
+        }
         var ore = now.getHours();
         var minuti = now.getMinutes();
         var idGiorno = giorni[oggi];
@@ -2583,6 +2590,9 @@
           "domenica"
         ];
         var oggi = (new Date().getDay())-1; // 0: lunedi ... 6: domenica
+        if(oggi == -1) {
+          oggi = 6; // Se oggi è domenica, impostalo a 6 per il calcolo corretto
+        }
         
         // Scroll only if not already anchored (from hash or reload)
         if (!window.location.hash || window.location.hash === "#top" || window.location.hash === "#") {
