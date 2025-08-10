@@ -2186,32 +2186,50 @@
         } else if (timeMin >= 1051 && timeMin <= 1350) { // 17:31 - 22:30
           fascia = 'cena';
         }
+
+        // Debug log per valori calcolati
+        console.log('idGiorno:', idGiorno);
+        console.log('fascia:', fascia);
+        console.log('ID elemento cercato:', idGiorno + '-' + fascia);
+  
         if (fascia) {
-          // Evidenzia h2 e relativo paragrafo
-          var h2 = document.getElementById(idGiorno + '-' + fascia);
-          h2.classList.add("highlight");
+           try {
 
-          // Trova tutti gli elementi successivi fino al prossimo h2 o h1
-          var currentElement = h2.nextElementSibling;
-          while (currentElement && currentElement.tagName !== 'H2' && currentElement.tagName !== 'H1') {
-            currentElement.classList.add("highlight");
-            currentElement = currentElement.nextElementSibling;
+              // Evidenzia h2 e relativo paragrafo
+              var h2 = document.getElementById(idGiorno + '-' + fascia);
+              h2.classList.add("highlight");
+
+              // Trova tutti gli elementi successivi fino al prossimo h2 o h1
+              var currentElement = h2.nextElementSibling;
+              while (currentElement && currentElement.tagName !== 'H2' && currentElement.tagName !== 'H1') {
+                currentElement.classList.add("highlight");
+                currentElement = currentElement.nextElementSibling;
+              }
+
+              // Scrolla il primo elemento evidenziato al centro dello schermo
+              setTimeout(function() {
+                var evidenziato = document.querySelector('.highlight');
+                if (evidenziato) {
+                  evidenziato.scrollIntoView({behavior: "smooth", block: "center"});
+
+                  var elementTop = evidenziato.getBoundingClientRect().top + window.pageYOffset;
+                  var offsetTop = elementTop - 185; // 185px dall'alto
+                  window.scrollTo({
+                    top: offsetTop,
+                    behavior: "smooth"
+                  });
+                }
+              }, 120); // Timeout breve per assicurare che l'highlight sia applicato
+
+          } catch (error) {
+            console.error('Errore durante l\'evidenziazione:', error);
+            console.log('Dettagli errore:');
+            console.log('- idGiorno:', idGiorno);
+            console.log('- fascia:', fascia);
+            console.log('- ID completo:', idGiorno + '-' + fascia);
+            console.log('- Tipo errore:', error.name);
+            console.log('- Messaggio:', error.message);
           }
-
-          // Scrolla il primo elemento evidenziato al centro dello schermo
-          setTimeout(function() {
-            var evidenziato = document.querySelector('.highlight');
-            if (evidenziato) {
-              evidenziato.scrollIntoView({behavior: "smooth", block: "center"});
-
-              var elementTop = evidenziato.getBoundingClientRect().top + window.pageYOffset;
-              var offsetTop = elementTop - 185; // 185px dall'alto
-              window.scrollTo({
-                top: offsetTop,
-                behavior: "smooth"
-              });
-            }
-          }, 120); // Timeout breve per assicurare che l'highlight sia applicato
         } else {
           // Mostra toast solo se NON in fascia oraria
           showToast();
